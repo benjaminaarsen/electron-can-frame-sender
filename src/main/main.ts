@@ -139,14 +139,3 @@ app
     });
   })
   .catch(console.log);
-
-ipcMain.on('test', () => {
-  can
-    .list()
-    .then((ports: any) => {
-      console.log(ports);
-    })
-    .catch((err: any) => {
-      console.log(err);
-    });
-});
