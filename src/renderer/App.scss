@@ -1,0 +1,10 @@
+$enable-grid-classes: false;
+$enable-cssgrid: true;
+@import '~bootstrap/scss/bootstrap';
+
+.absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

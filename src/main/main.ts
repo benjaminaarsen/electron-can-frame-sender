@@ -15,6 +15,10 @@ import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
+global.ipcMain = ipcMain;
+// eslint-disable-next-line import/first
+import './ipc/index';
+
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -135,3 +139,14 @@ app
     });
   })
   .catch(console.log);
+
+ipcMain.on('test', () => {
+  can
+    .list()
+    .then((ports: any) => {
+      console.log(ports);
+    })
+    .catch((err: any) => {
+      console.log(err);
+    });
+});
