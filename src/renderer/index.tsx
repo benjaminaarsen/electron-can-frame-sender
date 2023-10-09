@@ -11,3 +11,12 @@ declare global {
 const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
 root.render(<App />);
+
+window.api.ipcRenderer
+  .invoke('list-devices')
+  .then((ports) => {
+    return console.log(ports);
+  })
+  .catch((err) => {
+    console.log(err);
+  });

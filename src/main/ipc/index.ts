@@ -1,5 +1,10 @@
-import { canCallback } from './can/canCallback';
+// import { listDevices, openDevice } from './can/canCallback';
+import { listDevices, openDevice, closeDevice } from './can/canCallback';
+import { openDbcFile } from './dbc/dbcCallback';
 
 module.exports = {
-  canCallback,
+  listDevices,
+  openDevice,
+  closeDevice,
+  openDbcFile,
 };
