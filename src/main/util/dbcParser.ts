@@ -1,12 +1,9 @@
-import { Dbc } from 'candied';
+import Dbc from 'dbc-can';
 
 const dbc = new Dbc();
-import dbcReader from 'candied/lib/filesystem/DbcReader';
 
 function parseDbcFile(path: string) {
-  const fileData = dbcReader(path);
-  const data = dbc.load(fileData);
-  console.log(data);
+  const data = dbc.load(path);
   return data;
 }
 
