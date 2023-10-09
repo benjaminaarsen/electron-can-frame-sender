@@ -21,7 +21,7 @@ module.exports = {
         return result.filePaths[0];
       });
     if (filePath) {
-      const result = await parseDbcFile(filePath);
+      const result = parseDbcFile(filePath);
       return result;
     }
     return null;
