@@ -167,8 +167,8 @@
     "webpack-merge": "^5.9.0"
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "ElectronFrameSender",
+    "appId": "org.erb.ElectronFrameSender",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
