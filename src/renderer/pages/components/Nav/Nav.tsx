@@ -16,7 +16,7 @@ import DisconnectButton from './components/DisconnectButton';
 
 function Nav() {
   const [theme, setTheme] = useState(getTheme());
-  const [device, setDevices] = useState<string | null>('Adapter not connected');
+  const [device, setDevice] = useState<string | null>('Adapter not connected');
   const [variant, setVariant] = useState('danger');
   const [showDisconnect, setShowDisconnect] = useState(false);
 
@@ -47,9 +47,9 @@ function Nav() {
             as={ButtonGroup}
             title={device}
           >
-            <PeakDevices setDevice={setDevices} />
+            <PeakDevices setDevice={setDevice} />
           </DropdownButton>
-          {showDisconnect && <DisconnectButton setDevice={setDevices} />}
+          {showDisconnect && <DisconnectButton setDevice={setDevice} />}
         </ButtonToolbar>
       </Container>
       <Button
