@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import {
   Button,
   ButtonGroup,
@@ -7,8 +6,10 @@ import {
   DropdownButton,
   Navbar,
 } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
 import ThemeIcon from './components/ThemeIcon';
 import PeakDevices from './components/PeakDevice/PeakDevices';
+// import { getDevices } from './components/PeakDevice/PeakDevices';
 import getTheme from '../../../util/getTheme';
 import DbcButton from './components/DbcButton';
 import pcanConnected from '../../../util/pcanConnected';
@@ -19,6 +20,13 @@ function Nav() {
   const [device, setDevice] = useState<string | null>('Adapter not connected');
   const [variant, setVariant] = useState('danger');
   const [showDisconnect, setShowDisconnect] = useState(false);
+  const [dropdownKey, setDropdownKey] = useState(0);
+
+  function handleDropDownClick(prevKey: number) {
+    return () => {
+      setDropdownKey((prevKey + 1) % 2);
+    };
+  }
 
   useEffect(() => {
     pcanConnected()
@@ -42,12 +50,13 @@ function Nav() {
         <ButtonToolbar>
           <DbcButton />
           <DropdownButton
+            onClick={handleDropDownClick(dropdownKey)}
             variant={variant}
             className="ms-2"
             as={ButtonGroup}
             title={device}
           >
-            <PeakDevices setDevice={setDevice} />
+            <PeakDevices key={dropdownKey} setDevice={setDevice} />
           </DropdownButton>
           {showDisconnect && <DisconnectButton setDevice={setDevice} />}
         </ButtonToolbar>

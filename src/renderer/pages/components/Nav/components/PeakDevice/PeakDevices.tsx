@@ -2,7 +2,7 @@ import React = require('react');
 import { useEffect, useState, JSX } from 'react';
 import PeakDevice from './PeakDevice';
 
-function getDevices() {
+async function getDevices() {
   const res = window.api.ipcRenderer
     .invoke('list-devices')
     .then((devices: any[]) => {
@@ -15,23 +15,29 @@ function getDevices() {
 }
 function PeakDevices({ setDevice }: { setDevice: React.Dispatch<any> }) {
   const [elements, setElements] = useState<JSX.Element[]>([]);
-
   useEffect(() => {
-    const devices: any[] = getDevices();
+    const devices = getDevices();
     const newElements: JSX.Element[] = [];
-    Array.from(devices).forEach((d) => {
-      newElements.push(
-        <PeakDevice
-          setDevice={setDevice}
-          key={d.path}
-          path={d.path}
-          id={d.device_id}
-        />,
-      );
-    });
-    setElements(newElements);
+    devices
+      .then((_d: any[]) => {
+        Array.from(_d).forEach((d) => {
+          newElements.push(
+            <PeakDevice
+              setDevice={setDevice}
+              key={d.path}
+              path={d.path}
+              id={d.device_id}
+            />,
+          );
+        });
+        return setElements(newElements);
+      })
+      .catch((err: Error) => {
+        console.log(err);
+      });
   }, [setDevice]);
-  return elements;
+  if (elements.length > 0) return elements;
+  return 'No devices found.';
 }
 
 export default PeakDevices;
