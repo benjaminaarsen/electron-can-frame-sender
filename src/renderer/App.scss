@@ -8,3 +8,29 @@ $enable-cssgrid: true;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.drag {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.nodrag {
+  -webkit-user-select: none;
+  -webkit-app-region: no-drag;
+}
+
+@include color-mode(dark) {
+  .shade-color {
+    background-color: lighten($body-secondary-bg-dark, 3%);
+  }
+}
+
+// @include color-mode(light) {
+//   .shade-color {
+//     background-color: darken($body-secondary-bg, 10%);
+//   }
+// }
+
+.shade-color {
+  background-color: darken($body-tertiary-bg, 2%);
+}

@@ -9,7 +9,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 
@@ -68,7 +68,9 @@ const createWindow = async () => {
     show: false,
     width: 1024,
     height: 728,
+    frame: false,
     icon: getAssetPath('icon.png'),
+    autoHideMenuBar: true,
     webPreferences: {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
@@ -130,3 +132,13 @@ app
     });
   })
   .catch(console.log);
+
+ipcMain.on('close-app', () => {
+  app.quit();
+});
+
+ipcMain.on('minimize-app', () => {
+  if (mainWindow) {
+    mainWindow.minimize();
+  }
+});

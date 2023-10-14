@@ -1,5 +1,6 @@
-import { DbcData } from 'dbc-can/lib/dbc/Dbc';
-import { JSX } from 'react';
+import { CSSProperties, JSX } from 'react';
+import { DbcData, Message } from 'dbc-can/lib/dbc/Dbc';
+import { Card, Container } from 'react-bootstrap';
 
 let data: DbcData;
 
@@ -8,20 +9,30 @@ export function setData(newData: DbcData) {
   console.log(data.messages);
 }
 
-function DbcView() {
+function Cards({ messages }: { messages: Map<string, Message> }) {
   const elements: JSX.Element[] = [];
-
-  data.messages.forEach((message) => {
+  messages.forEach((message) => {
     elements.push(
-      <div key={message.id}>
-        <h2>{message.name}</h2>
-        <p>{message.id}</p>
-        <p>{message.description}</p>
-        <p>{message.dlc}</p>
-      </div>,
+      <Card className="g-col-4 shade-color border-0">
+        <Card.Body>
+          <Card.Title>{message.name}</Card.Title>
+          <Card.Text>{message.id}</Card.Text>
+          <Card.Text>{message.description}</Card.Text>
+          <Card.Text>{message.dlc}</Card.Text>
+        </Card.Body>
+      </Card>,
     );
   });
   return elements;
+}
+
+function DbcView() {
+  const containerStyle: CSSProperties = { paddingTop: '65px' };
+  return (
+    <Container style={containerStyle} className="grid">
+      <Cards messages={data.messages} />
+    </Container>
+  );
 }
 
 export default DbcView;
