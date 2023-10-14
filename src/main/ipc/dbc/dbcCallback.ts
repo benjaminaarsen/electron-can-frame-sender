@@ -1,10 +1,9 @@
 import os from 'os';
-import { dialog } from 'electron';
+import { dialog, ipcMain } from 'electron';
 import parseDbcFile from '../../util/dbcParser';
-import global from '../../global';
 
-module.exports = {
-  openDbcFile: global.ipcMain.handle('open-dbc-file', async () => {
+module openDbcFile {
+  ipcMain.handle('open-dbc-file', async () => {
     const filePath = await dialog
       .showOpenDialog({
         properties: ['openFile'],
@@ -25,5 +24,7 @@ module.exports = {
       return result;
     }
     return null;
-  }),
-};
+  });
+}
+
+export default openDbcFile;

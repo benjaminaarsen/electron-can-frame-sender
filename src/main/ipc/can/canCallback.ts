@@ -1,13 +1,16 @@
-import { dialog } from 'electron';
-import global from '../../global';
+import { dialog, ipcMain } from 'electron';
+// import global from '../../global';
 import can from '../../util/can';
 
-module.exports = {
-  listDevices: global.ipcMain.handle('list-devices', async () => {
+export module listDevices {
+  ipcMain.handle('list-devices', async () => {
     const result = await can.list();
     return result;
-  }),
-  openDevice: global.ipcMain.on('open-device', (event, devicePath) => {
+  });
+}
+
+export module openDevice {
+  ipcMain.on('open-device', (event, devicePath) => {
     can.open(devicePath).catch((err) => {
       dialog.showErrorBox(
         'Error',
@@ -15,12 +18,16 @@ module.exports = {
       );
       // console.log(err);
     });
-  }),
-  getStatus: global.ipcMain.handle('get-status', () => {
+  });
+}
+export module getStatus {
+  ipcMain.handle('get-status', () => {
     const result = can.isOpen();
     return result;
-  }),
-  closeDevice: global.ipcMain.on('close-device', () => {
+  });
+}
+export module closeDevice {
+  ipcMain.on('close-device', () => {
     can.close();
-  }),
-};
+  });
+}

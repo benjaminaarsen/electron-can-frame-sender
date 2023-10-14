@@ -9,14 +9,12 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, ipcMain, shell } from 'electron';
+import { app, BrowserWindow, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import global from './global';
+
 // import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-
-global.ipcMain = ipcMain;
 // eslint-disable-next-line import/first
 import './ipc/index';
 
