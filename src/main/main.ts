@@ -12,8 +12,8 @@ import path from 'path';
 import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-
-import { resolveHtmlPath } from './util';
+import fs from 'fs';
+import { resolveHtmlPath, loadSettings } from './util';
 import './ipc/index';
 
 class AppUpdater {
@@ -91,6 +91,11 @@ const createWindow = async () => {
     }
   });
 
+  mainWindow.webContents.on('did-finish-load', () => {
+    const localStorage = loadSettings();
+    mainWindow?.webContents.send('load-settings', localStorage);
+  });
+
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
@@ -134,11 +139,16 @@ app
   .catch(console.log);
 
 ipcMain.on('close-app', () => {
-  app.quit();
+  mainWindow?.close();
 });
 
 ipcMain.on('minimize-app', () => {
   if (mainWindow) {
     mainWindow.minimize();
   }
+});
+
+ipcMain.on('save-settings', (event, localStorage: Storage) => {
+  const userData = app.getPath('userData');
+  fs.writeFileSync(`${userData}/settings.json`, JSON.stringify(localStorage));
 });

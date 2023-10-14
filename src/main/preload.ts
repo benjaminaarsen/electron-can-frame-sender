@@ -28,3 +28,24 @@ const electronHandler = {
 };
 
 contextBridge.exposeInMainWorld('api', electronHandler);
+
+window.addEventListener('DOMContentLoaded', () => {
+  ipcRenderer.on('load-settings', (event, settings: Object) => {
+    console.log(settings);
+
+    Object.entries(settings).forEach(([key, value]) => {
+      if (typeof value === 'string') {
+        try {
+          localStorage.setItem(key, value);
+          // console.log(localStorage.getItem(key));
+          document.documentElement.setAttribute(
+            'data-bs-theme',
+            localStorage.getItem('theme') || 'light',
+          );
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    });
+  });
+});

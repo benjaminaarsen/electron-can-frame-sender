@@ -13,7 +13,7 @@ function Cards({ messages }: { messages: Map<string, Message> }) {
   const elements: JSX.Element[] = [];
   messages.forEach((message) => {
     elements.push(
-      <Card className="g-col-4 shade-color border-0">
+      <Card key={message.name} className="g-col-4 shade-color border-0">
         <Card.Body>
           <Card.Title>{message.name}</Card.Title>
           <Card.Text>{message.id}</Card.Text>
@@ -27,7 +27,7 @@ function Cards({ messages }: { messages: Map<string, Message> }) {
 }
 
 function DbcView() {
-  const containerStyle: CSSProperties = { paddingTop: '65px' };
+  const containerStyle: CSSProperties = { paddingTop: '75px' };
   return (
     <Container style={containerStyle} className="grid">
       <Cards messages={data.messages} />

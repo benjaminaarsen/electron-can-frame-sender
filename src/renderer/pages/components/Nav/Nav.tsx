@@ -71,6 +71,7 @@ function Nav() {
             const newTheme = theme === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-bs-theme', newTheme);
             setTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
           }}
         >
           <ThemeIcon mode={theme} />
@@ -89,6 +90,7 @@ function Nav() {
             variant="btn-link"
             className="border-0"
             onClick={() => {
+              window.api.ipcRenderer.send('save-settings', localStorage);
               window.api.ipcRenderer.send('close-app');
             }}
           >

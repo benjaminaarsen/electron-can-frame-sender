@@ -22,7 +22,6 @@ export module openDbcFile {
       });
     if (filePath) {
       const result = await parseDbcFile(filePath);
-      console.log(result.messages);
       return result;
     }
     return null;
