@@ -44,26 +44,24 @@ function Nav() {
   }, [device]);
 
   return (
-    <Navbar expand="lg" className="bg-body-secondary">
-      <Container className="d-flex justify-content-start">
-        <Navbar.Brand>Frame Sender</Navbar.Brand>
-        <ButtonToolbar>
-          <DbcButton />
-          <DropdownButton
-            onClick={handleDropDownClick(dropdownKey)}
-            variant={variant}
-            className="ms-2"
-            as={ButtonGroup}
-            title={device}
-          >
-            <PeakDevices key={dropdownKey} setDevice={setDevice} />
-          </DropdownButton>
-          {showDisconnect && <DisconnectButton setDevice={setDevice} />}
-        </ButtonToolbar>
-      </Container>
+    <Navbar expand="lg" className="bg-body-secondary px-2">
+      <Navbar.Brand>Frame Sender</Navbar.Brand>
+      <ButtonToolbar>
+        <DbcButton />
+        <DropdownButton
+          onClick={handleDropDownClick(dropdownKey)}
+          variant={variant}
+          className="ms-2"
+          as={ButtonGroup}
+          title={device}
+        >
+          <PeakDevices key={dropdownKey} setDevice={setDevice} />
+        </DropdownButton>
+        {showDisconnect && <DisconnectButton setDevice={setDevice} />}
+      </ButtonToolbar>
       <Button
         variant="btn-link"
-        className="me-3 border-0"
+        className="me-3 border-0 position-absolute end-0"
         onClick={() => {
           const newTheme = theme === 'dark' ? 'light' : 'dark';
           document.documentElement.setAttribute('data-bs-theme', newTheme);

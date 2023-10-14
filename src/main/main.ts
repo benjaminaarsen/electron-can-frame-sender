@@ -13,9 +13,7 @@ import { app, BrowserWindow, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 
-// import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-// eslint-disable-next-line import/first
 import './ipc/index';
 
 class AppUpdater {

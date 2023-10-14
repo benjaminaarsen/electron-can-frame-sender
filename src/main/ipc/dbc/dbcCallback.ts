@@ -1,8 +1,9 @@
 import os from 'os';
 import { dialog, ipcMain } from 'electron';
 import parseDbcFile from '../../util/dbcParser';
+import {} from 'dbc-can';
 
-module openDbcFile {
+export module openDbcFile {
   ipcMain.handle('open-dbc-file', async () => {
     const filePath = await dialog
       .showOpenDialog({
@@ -20,11 +21,11 @@ module openDbcFile {
         return result.filePaths[0];
       });
     if (filePath) {
-      const result = parseDbcFile(filePath);
+      const result = await parseDbcFile(filePath);
+      console.log(result.messages);
       return result;
     }
     return null;
   });
 }
-
 export default openDbcFile;
