@@ -21,8 +21,14 @@ export module openDevice {
   });
 }
 export module getStatus {
-  ipcMain.handle('get-status', () => {
-    const result = can.isOpen();
+  ipcMain.handle('get-status', async () => {
+    const result = await can.isOpen();
+    return result;
+  });
+}
+export module getDevice {
+  ipcMain.handle('get-device', async () => {
+    const result = can.getPort();
     return result;
   });
 }

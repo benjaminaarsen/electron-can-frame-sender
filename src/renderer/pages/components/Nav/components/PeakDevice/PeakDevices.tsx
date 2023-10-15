@@ -22,12 +22,7 @@ function PeakDevices({ setDevice }: { setDevice: React.Dispatch<any> }) {
       .then((_d: any[]) => {
         Array.from(_d).forEach((d) => {
           newElements.push(
-            <PeakDevice
-              setDevice={setDevice}
-              key={d.path}
-              path={d.path}
-              id={d.device_id}
-            />,
+            <PeakDevice setDevice={setDevice} key={d.path} path={d.path} />,
           );
         });
         return setElements(newElements);

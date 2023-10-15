@@ -3,21 +3,20 @@ import { Dropdown } from 'react-bootstrap';
 
 function PeakDevice({
   setDevice,
-  id,
   path,
 }: {
   setDevice: React.Dispatch<React.SetStateAction<string | null>>;
-  id: string;
   path: string;
 }) {
   return (
     <Dropdown.Item
       onClick={() => {
         window.api.ipcRenderer.send('open-device', path);
-        setDevice(`PeakCAN id: ${id}`);
+        setDevice(`PeakCAN handle: ${path}`);
+        localStorage.setItem('device', path);
       }}
     >
-      PeakCAN id: {id}
+      PeakCAN handle: {path}
     </Dropdown.Item>
   );
 }

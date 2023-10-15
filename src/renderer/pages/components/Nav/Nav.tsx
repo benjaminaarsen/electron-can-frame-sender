@@ -18,24 +18,33 @@ import DisconnectButton from './components/DisconnectButton';
 
 function Nav() {
   const [theme, setTheme] = useState(getTheme());
-  const [device, setDevice] = useState<string | null>('Adapter not connected');
   const [variant, setVariant] = useState('danger');
   const [showDisconnect, setShowDisconnect] = useState(false);
   const [dropdownKey, setDropdownKey] = useState(0);
-
+  const [device, setDevice] = useState<string>('Adapter not connected');
   function handleDropDownClick(prevKey: number) {
     return () => {
       setDropdownKey((prevKey + 1) % 2);
     };
   }
-
   useEffect(() => {
     pcanConnected()
       .then((connected: boolean) => {
         if (connected) {
+          if (device === 'Adapter not connected') {
+            window.api.ipcRenderer
+              .invoke('get-device')
+              .then((path: string) => {
+                return setDevice(`PeakCAN handle: ${path}`);
+              })
+              .catch((err: Error) => {
+                console.log(err);
+              });
+          }
           setShowDisconnect(true);
           return setVariant('success');
         }
+
         setShowDisconnect(false);
         return setVariant('danger');
       })
@@ -53,6 +62,7 @@ function Nav() {
           <DropdownButton
             onClick={handleDropDownClick(dropdownKey)}
             variant={variant}
+            disabled={showDisconnect}
             className="ms-2"
             as={ButtonGroup}
             title={device}
@@ -70,8 +80,9 @@ function Nav() {
           onClick={() => {
             const newTheme = theme === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-bs-theme', newTheme);
-            setTheme(newTheme);
             localStorage.setItem('theme', newTheme);
+
+            setTheme(newTheme);
           }}
         >
           <ThemeIcon mode={theme} />

@@ -48,4 +48,19 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  ipcRenderer
+    .invoke('get-status')
+    .then((result) => {
+      if (!result) {
+        const deviceHandleString = localStorage.getItem('device') || '';
+        const deviceHandle = parseInt(deviceHandleString, 10);
+        if (deviceHandle !== null && !Number.isNaN(deviceHandle)) {
+          // ipcRenderer.send('list-devices');
+          ipcRenderer.send('open-device', deviceHandle);
+        }
+      }
+      return console.log('Autoconnect');
+    })
+    .catch(console.log);
 });
