@@ -13,6 +13,7 @@ import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import fs from 'fs';
+import can from './util/can';
 import { resolveHtmlPath, loadSettings } from './util';
 import './ipc/index';
 
@@ -119,6 +120,9 @@ const createWindow = async () => {
  */
 
 app.on('window-all-closed', () => {
+  if (can.isOpen()) {
+    can.close();
+  }
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
   if (process.platform !== 'darwin') {
