@@ -6,7 +6,7 @@ function DisconnectButton({ setDevice }: { setDevice: Function }) {
       className="ms-2"
       onClick={() => {
         setDevice('Adapter not connected');
-        window.api.ipcRenderer.send('close-device');
+        window.api.closeDevice();
       }}
       variant="outline-danger"
     >

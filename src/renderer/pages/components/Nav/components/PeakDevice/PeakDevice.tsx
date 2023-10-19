@@ -11,7 +11,7 @@ function PeakDevice({
   return (
     <Dropdown.Item
       onClick={() => {
-        window.api.ipcRenderer.send('open-device', path);
+        window.api.openDevice(path);
         setDevice(`PeakCAN handle: ${path}`);
         localStorage.setItem('device', path);
       }}

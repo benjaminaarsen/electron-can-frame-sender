@@ -2,21 +2,15 @@ import React = require('react');
 import { useEffect, useState, JSX } from 'react';
 import PeakDevice from './PeakDevice';
 
-async function getDevices() {
-  const res = window.api.ipcRenderer
-    .invoke('list-devices')
-    .then((devices: any[]) => {
-      return devices;
-    })
-    .catch((err: Error) => {
-      console.log(err);
-    });
-  return res;
-}
+// async function getDevices() {
+//   const devices = await window.api.listDevices();
+//   return devices;
+// }
+
 function PeakDevices({ setDevice }: { setDevice: React.Dispatch<any> }) {
   const [elements, setElements] = useState<JSX.Element[]>([]);
   useEffect(() => {
-    const devices = getDevices();
+    const devices = window.api.getDevices();
     const newElements: JSX.Element[] = [];
     devices
       .then((_d: any[]) => {

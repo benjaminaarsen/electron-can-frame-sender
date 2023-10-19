@@ -1,11 +1,27 @@
 import { dialog, ipcMain } from 'electron';
 // import global from '../../global';
+import {
+  updateDevices as _updateDevices,
+  getDevices as _getDevices,
+} from '../../devices';
 import can from '../../util/can';
 
-export module listDevices {
-  ipcMain.handle('list-devices', async () => {
+export module updateDevices {
+  ipcMain.on('update-devices', async () => {
     const result = await can.list();
-    return result;
+    console.log(result);
+    // update local devices list
+    const newDevices: any[] = [];
+    result.forEach((device: any) => {
+      newDevices.push(device);
+    });
+    _updateDevices(newDevices);
+  });
+}
+
+export module getDevices {
+  ipcMain.handle('get-devices', () => {
+    return _getDevices();
   });
 }
 

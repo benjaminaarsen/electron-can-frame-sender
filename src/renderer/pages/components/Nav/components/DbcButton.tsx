@@ -11,16 +11,11 @@ function DbcButton() {
   return (
     <Button
       variant={getOppositeColor()}
-      onClick={() => {
-        window.api.ipcRenderer
-          .invoke('open-dbc-file')
-          .then((data: DbcData) => {
-            navigate('/dbc');
-            return setData(data);
-          })
-          .catch((err: Error) => {
-            console.log(err);
-          });
+      onClick={async () => {
+        const data: DbcData = await window.api.openDbcFile();
+        if (!data) return;
+        navigate('/dbc');
+        setData(data);
       }}
     >
       Open DBC File

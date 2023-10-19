@@ -1,4 +1,9 @@
-import { listDevices, openDevice, closeDevice } from './can/canCallback';
+import {
+  updateDevices,
+  getDevices,
+  openDevice,
+  closeDevice,
+} from './can/canCallback';
 import openDbcFile from './dbc/dbcCallback';
 
-export { listDevices, openDevice, closeDevice, openDbcFile };
+export { updateDevices, getDevices, openDevice, closeDevice, openDbcFile };

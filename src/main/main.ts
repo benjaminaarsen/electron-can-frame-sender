@@ -154,5 +154,9 @@ ipcMain.on('minimize-app', () => {
 
 ipcMain.on('save-settings', (event, localStorage: Storage) => {
   const userData = app.getPath('userData');
-  fs.writeFileSync(`${userData}/settings.json`, JSON.stringify(localStorage));
+  fs.writeFile(
+    `${userData}/settings.json`,
+    JSON.stringify(localStorage),
+    () => {},
+  );
 });

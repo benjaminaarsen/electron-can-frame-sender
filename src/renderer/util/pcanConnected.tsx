@@ -1,9 +1,5 @@
-function pcanConnected() {
-  const result = window.api.ipcRenderer
-    .invoke('get-status')
-    .then((res: any) => {
-      return res;
-    });
+async function pcanConnected() {
+  const result = await window.api.getStatus();
   return result;
 }
 

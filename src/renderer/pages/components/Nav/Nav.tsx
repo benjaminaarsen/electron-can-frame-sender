@@ -6,52 +6,25 @@ import {
   DropdownButton,
   Navbar,
 } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { XLg, DashLg } from 'react-bootstrap-icons';
 import ThemeIcon from './components/ThemeIcon';
 import PeakDevices from './components/PeakDevice/PeakDevices';
 // import { getDevices } from './components/PeakDevice/PeakDevices';
 import getTheme from '../../../util/getTheme';
 import DbcButton from './components/DbcButton';
-import pcanConnected from '../../../util/pcanConnected';
 import DisconnectButton from './components/DisconnectButton';
 
 function Nav() {
   const [theme, setTheme] = useState(getTheme());
   const [variant, setVariant] = useState('danger');
-  const [showDisconnect, setShowDisconnect] = useState(false);
   const [dropdownKey, setDropdownKey] = useState(0);
-  const [device, setDevice] = useState<string>('Adapter not connected');
+  const [device, setDevice] = useState<string | null>(null);
   function handleDropDownClick(prevKey: number) {
     return () => {
       setDropdownKey((prevKey + 1) % 2);
     };
   }
-  useEffect(() => {
-    pcanConnected()
-      .then((connected: boolean) => {
-        if (connected) {
-          if (device === 'Adapter not connected') {
-            window.api.ipcRenderer
-              .invoke('get-device')
-              .then((path: string) => {
-                return setDevice(`PeakCAN handle: ${path}`);
-              })
-              .catch((err: Error) => {
-                console.log(err);
-              });
-          }
-          setShowDisconnect(true);
-          return setVariant('success');
-        }
-
-        setShowDisconnect(false);
-        return setVariant('danger');
-      })
-      .catch((err: Error) => {
-        console.log(err);
-      });
-  }, [device]);
 
   return (
     <Navbar expand="lg" className="bg-body-secondary px-2 drag">
@@ -62,14 +35,13 @@ function Nav() {
           <DropdownButton
             onClick={handleDropDownClick(dropdownKey)}
             variant={variant}
-            disabled={showDisconnect}
             className="ms-2"
             as={ButtonGroup}
-            title={device}
+            title={device || 'Select Device'}
           >
             <PeakDevices key={dropdownKey} setDevice={setDevice} />
           </DropdownButton>
-          {showDisconnect && <DisconnectButton setDevice={setDevice} />}
+          {/* {showDisconnect && <DisconnectButton setDevice={setDevice} />} */}
         </ButtonToolbar>
       </Container>
 
@@ -92,7 +64,7 @@ function Nav() {
             variant="btn-link"
             className="border-0"
             onClick={() => {
-              window.api.ipcRenderer.send('minimize-app');
+              window.api.minimizeApp();
             }}
           >
             <DashLg size={18} />
@@ -101,8 +73,8 @@ function Nav() {
             variant="btn-link"
             className="border-0"
             onClick={() => {
-              window.api.ipcRenderer.send('save-settings', localStorage);
-              window.api.ipcRenderer.send('close-app');
+              window.api.saveSettings(localStorage);
+              window.api.closeApp();
             }}
           >
             <XLg size={18} />
