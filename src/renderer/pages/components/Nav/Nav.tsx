@@ -26,7 +26,7 @@ function Nav({ Initdevice }: { Initdevice: number | null }) {
     (async () => {
       // const d = await window.api.getCurrentDevice();
       // console.log(d);
-      console.log(Initdevice);
+      // console.log(Initdevice);
       return setDevice(`PeakCAN handle: ${Initdevice}`);
     })();
   }, [Initdevice]);
@@ -36,7 +36,7 @@ function Nav({ Initdevice }: { Initdevice: number | null }) {
       window.api
         .isMaximized()
         .then((m) => {
-          console.log(m);
+          // console.log(m);
           return setMaximized(m);
         })
         .catch(console.log);
@@ -59,6 +59,7 @@ function Nav({ Initdevice }: { Initdevice: number | null }) {
             onClick={handleDropDownClick(dropdownKey)}
             variant={variant}
             className="ms-2"
+            disabled={!!device}
             as={ButtonGroup}
             title={device || 'Select Device'}
           >
@@ -70,7 +71,7 @@ function Nav({ Initdevice }: { Initdevice: number | null }) {
 
       <div className="position-absolute end-0 nodrag p-2">
         <Button
-          className="border-0"
+          className="border-0 theme-button"
           variant="btn-link"
           onClick={() => {
             const newTheme = theme === 'dark' ? 'light' : 'dark';

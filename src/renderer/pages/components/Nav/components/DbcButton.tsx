@@ -2,7 +2,6 @@ import { Button } from 'react-bootstrap';
 
 import { DbcData } from 'dbc-can/lib/dbc/Dbc';
 import { useNavigate } from 'react-router-dom';
-import getOppositeColor from '../../../../util/getOppositeColor';
 import { setData } from '../../../Home/DbcView';
 
 function DbcButton() {
