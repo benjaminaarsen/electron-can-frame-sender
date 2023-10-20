@@ -18,11 +18,8 @@ export default function App() {
       }
       await window.api.updateDevices();
       const devices = await window.api.getDevices();
-      console.log(devices);
       devices.forEach((d: any) => {
-        console.log(localStorage);
         if (d.path === parseInt(localStorage.getItem('device') || '', 10)) {
-          console.log(d.path);
           window.api.openDevice(d.path);
           setDevice(d.path);
         }
