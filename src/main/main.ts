@@ -117,12 +117,12 @@ const createWindow = async () => {
 
   mainWindow.on('maximize', () => {
     mainWindow?.webContents.send('resized');
-    console.log('resized');
+    // console.log('resized');
   });
 
   mainWindow.on('unmaximize', () => {
     mainWindow?.webContents.send('resized');
-    console.log('resized');
+    // console.log('resized');
   });
 };
 /**
