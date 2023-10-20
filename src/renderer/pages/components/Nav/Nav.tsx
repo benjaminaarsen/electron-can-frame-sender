@@ -32,7 +32,7 @@ function Nav({ Initdevice }: { Initdevice: number | null }) {
   }, [Initdevice]);
 
   useEffect(() => {
-    window.api.handleResize(() => {
+    return window.api.handleResize(() => {
       window.api
         .isMaximized()
         .then((m) => {
