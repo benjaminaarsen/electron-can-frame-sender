@@ -1,5 +1,5 @@
 async function pcanConnected() {
-  const result = await window.api.getStatus();
+  const result = await window.api.getCurrentDevice();
   return result;
 }
 

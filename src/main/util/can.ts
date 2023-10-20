@@ -1,7 +1,25 @@
 import Can from '@csllc/cs-pcan-usb';
 
-const can = new Can({
+export const can = new Can({
   canRate: 250000,
 });
 
-export default can;
+let devices: any[] = [];
+let currentDevice: any = null;
+
+export const updateDevices = async () => {
+  devices = await can.list();
+  // console.log(devices);
+};
+
+export const getDevices = () => {
+  return devices;
+};
+
+export const getCurrentDevice = () => {
+  return currentDevice;
+};
+
+export const setCurrentDevice = (device: any) => {
+  currentDevice = device;
+};

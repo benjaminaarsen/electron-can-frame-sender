@@ -1,8 +1,6 @@
 // // Disable no-unused-vars, broken for spread args
 // /* eslint no-unused-vars: off */
-import { IpcRendererEvent, contextBridge, ipcRenderer } from 'electron';
-import { DbcData } from 'dbc-can/lib/dbc/Dbc';
-import { usb } from 'usb';
+import { contextBridge, ipcRenderer } from 'electron';
 // import CanApi from './can_api';
 
 // const can = new CanApi();
@@ -60,6 +58,10 @@ const WINDOW_API = {
     const promise = ipcRenderer.invoke('get-status');
     return promise;
   },
+  getCurrentDevice: () => {
+    const promise = ipcRenderer.invoke('get-device');
+    return promise;
+  },
 };
 // contextBridge.exposeInMainWorld('api', electronHandler);
 contextBridge.exposeInMainWorld('api', WINDOW_API);
@@ -83,6 +85,4 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-  // update devices on startup
-  window.api.updateDevices();
 });

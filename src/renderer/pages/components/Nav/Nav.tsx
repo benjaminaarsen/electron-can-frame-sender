@@ -17,7 +17,7 @@ import DisconnectButton from './components/DisconnectButton';
 
 function Nav() {
   const [theme, setTheme] = useState(getTheme());
-  const [variant, setVariant] = useState('danger');
+  // const [variant, setVariant] = useState('danger');
   const [dropdownKey, setDropdownKey] = useState(0);
   const [device, setDevice] = useState<string | null>(null);
   function handleDropDownClick(prevKey: number) {
@@ -25,6 +25,9 @@ function Nav() {
       setDropdownKey((prevKey + 1) % 2);
     };
   }
+  const variant = device ? 'success' : 'danger';
+
+  // setVariant(device ? 'success' : 'danger');
 
   return (
     <Navbar expand="lg" className="bg-body-secondary px-2 drag">
@@ -41,7 +44,7 @@ function Nav() {
           >
             <PeakDevices key={dropdownKey} setDevice={setDevice} />
           </DropdownButton>
-          {/* {showDisconnect && <DisconnectButton setDevice={setDevice} />} */}
+          {device && <DisconnectButton setDevice={setDevice} />}
         </ButtonToolbar>
       </Container>
 

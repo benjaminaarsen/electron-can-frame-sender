@@ -13,7 +13,8 @@ import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import fs from 'fs';
-import can from './util/can';
+import { usb } from 'usb';
+import { can, getDevices, updateDevices } from './util/can';
 import { resolveHtmlPath, loadSettings } from './util';
 import './ipc/index';
 
@@ -95,6 +96,20 @@ const createWindow = async () => {
   mainWindow.webContents.on('did-finish-load', () => {
     const localStorage = loadSettings();
     mainWindow?.webContents.send('load-settings', localStorage);
+    updateDevices()
+      .then(() => {
+        const devices = getDevices();
+        console.log(devices);
+        devices.forEach((device) => {
+          if (device.path === parseInt((localStorage as Storage)?.device, 10)) {
+            can.open(device.path).catch((err) => {
+              console.log(err);
+            });
+            // mainWindow?.webContents.send('open-device', device.path);
+          }
+        });
+      })
+      .catch(console.log);
   });
 
   mainWindow.on('closed', () => {
@@ -159,4 +174,13 @@ ipcMain.on('save-settings', (event, localStorage: Storage) => {
     JSON.stringify(localStorage),
     () => {},
   );
+});
+
+usb.on('attach', () => {
+  updateDevices();
+  console.log('attach');
+});
+usb.on('detach', () => {
+  updateDevices();
+  console.log('detach');
 });

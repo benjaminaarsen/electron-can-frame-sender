@@ -3,7 +3,7 @@ import { dialog, ipcMain } from 'electron';
 import parseDbcFile from '../../util/dbcParser';
 import {} from 'dbc-can';
 
-export module openDbcFile {
+module openDbcFile {
   ipcMain.handle('open-dbc-file', async () => {
     const filePath = await dialog
       .showOpenDialog({

@@ -1,6 +1,7 @@
 import React = require('react');
 import { useEffect, useState, JSX } from 'react';
 import PeakDevice from './PeakDevice';
+import { DropdownItem } from 'react-bootstrap';
 
 // async function getDevices() {
 //   const devices = await window.api.listDevices();
@@ -9,24 +10,24 @@ import PeakDevice from './PeakDevice';
 
 function PeakDevices({ setDevice }: { setDevice: React.Dispatch<any> }) {
   const [elements, setElements] = useState<JSX.Element[]>([]);
+  //rerender when return value of window.api.getDevices changes
   useEffect(() => {
-    const devices = window.api.getDevices();
-    const newElements: JSX.Element[] = [];
-    devices
-      .then((_d: any[]) => {
-        Array.from(_d).forEach((d) => {
-          newElements.push(
-            <PeakDevice setDevice={setDevice} key={d.path} path={d.path} />,
+    window.api
+      .getDevices()
+      .then((devices) => {
+        const el = devices.map((d) => {
+          return (
+            <PeakDevice key={d.path} path={d.path} setDevice={setDevice} />
           );
         });
-        return setElements(newElements);
+        return setElements(el);
       })
-      .catch((err: Error) => {
+      .catch((err) => {
         console.log(err);
       });
-  }, [setDevice]);
+  });
   if (elements.length > 0) return elements;
-  return 'No devices found.';
+  return <DropdownItem>No devices found.</DropdownItem>;
 }
 
 export default PeakDevices;

@@ -1,21 +1,16 @@
 import { dialog, ipcMain } from 'electron';
 // import global from '../../global';
 import {
+  can,
   updateDevices as _updateDevices,
   getDevices as _getDevices,
-} from '../../devices';
-import can from '../../util/can';
+  setCurrentDevice,
+  getCurrentDevice,
+} from '../../util/can';
 
 export module updateDevices {
   ipcMain.on('update-devices', async () => {
-    const result = await can.list();
-    console.log(result);
-    // update local devices list
-    const newDevices: any[] = [];
-    result.forEach((device: any) => {
-      newDevices.push(device);
-    });
-    _updateDevices(newDevices);
+    _updateDevices();
   });
 }
 
@@ -33,6 +28,7 @@ export module openDevice {
         `${err.message}\n\nMake sure the device is not in use.`,
       );
       // console.log(err);
+      setCurrentDevice(devicePath);
     });
   });
 }
@@ -43,8 +39,8 @@ export module getStatus {
   });
 }
 export module getDevice {
-  ipcMain.handle('get-device', async () => {
-    const result = can.getPort();
+  ipcMain.handle('get-device', () => {
+    const result = getCurrentDevice();
     return result;
   });
 }

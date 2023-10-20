@@ -5,7 +5,7 @@ function DisconnectButton({ setDevice }: { setDevice: Function }) {
     <Button
       className="ms-2"
       onClick={() => {
-        setDevice('Adapter not connected');
+        setDevice(null);
         window.api.closeDevice();
       }}
       variant="outline-danger"
