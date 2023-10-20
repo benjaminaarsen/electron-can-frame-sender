@@ -10,7 +10,7 @@ function DbcButton() {
 
   return (
     <Button
-      variant={getOppositeColor()}
+      variant="primary"
       onClick={async () => {
         const data: DbcData = await window.api.openDbcFile();
         if (!data) return;
