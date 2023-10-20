@@ -113,9 +113,18 @@ const createWindow = async () => {
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
-  new AppUpdater();
-};
+  // new AppUpdater();
 
+  mainWindow.on('maximize', () => {
+    mainWindow?.webContents.send('resized');
+    console.log('resized');
+  });
+
+  mainWindow.on('unmaximize', () => {
+    mainWindow?.webContents.send('resized');
+    console.log('resized');
+  });
+};
 /**
  * Add event listeners...
  */

@@ -20,6 +20,7 @@ function Nav({ Initdevice }: { Initdevice: number | null }) {
   // const [variant, setVariant] = useState('danger');
   const [dropdownKey, setDropdownKey] = useState(0);
   const [device, setDevice] = useState<string | null>(null);
+  const [maximized, setMaximized] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -30,8 +31,17 @@ function Nav({ Initdevice }: { Initdevice: number | null }) {
     })();
   }, [Initdevice]);
 
-  const [maximized, setMaximized] = useState(window.api.isMaximized());
-
+  useEffect(() => {
+    window.api.handleResize(() => {
+      window.api
+        .isMaximized()
+        .then((m) => {
+          console.log(m);
+          return setMaximized(m);
+        })
+        .catch(console.log);
+    });
+  });
   function handleDropDownClick(prevKey: number) {
     return () => {
       setDropdownKey((prevKey + 1) % 2);
@@ -91,7 +101,6 @@ function Nav({ Initdevice }: { Initdevice: number | null }) {
               } else {
                 window.api.maximizeApp();
               }
-              setMaximized(!maximized);
             }}
           >
             {maximized ? (

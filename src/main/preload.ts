@@ -1,6 +1,6 @@
 // // Disable no-unused-vars, broken for spread args
 // /* eslint no-unused-vars: off */
-import { contextBridge, ipcRenderer } from 'electron';
+import { IpcRendererEvent, contextBridge, ipcRenderer } from 'electron';
 // import CanApi from './can_api';
 
 // const can = new CanApi();
@@ -71,6 +71,15 @@ const WINDOW_API = {
   getCurrentDevice: () => {
     const promise = ipcRenderer.invoke('get-device');
     return promise;
+  },
+  handleResize(func: (...args: unknown[]) => void) {
+    const subscription = (_event: IpcRendererEvent, ...args: unknown[]) =>
+      func(...args);
+    ipcRenderer.on('resized', subscription);
+
+    return () => {
+      ipcRenderer.removeListener('resized', subscription);
+    };
   },
 };
 // contextBridge.exposeInMainWorld('api', electronHandler);
