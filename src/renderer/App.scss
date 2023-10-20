@@ -19,18 +19,34 @@ $enable-cssgrid: true;
   -webkit-app-region: no-drag;
 }
 
+$shade-color: darken($body-tertiary-bg, 3%);
+$shade-color-dark: lighten($body-secondary-bg-dark, 3%);
+
 @include color-mode(dark) {
   .shade-color {
-    background-color: lighten($body-secondary-bg-dark, 3%);
+    background-color: $shade-color-dark;
+  }
+
+  .nav-shade {
+    background-color: lighten($shade-color-dark, 5%);
+  }
+  .nav-shade:hover {
+    background-color: lighten($shade-color-dark, 2%);
   }
 }
 
-// @include color-mode(light) {
-//   .shade-color {
-//     background-color: darken($body-secondary-bg, 10%);
-//   }
-// }
-
 .shade-color {
-  background-color: darken($body-tertiary-bg, 2%);
+  background-color: $shade-color;
+}
+
+.close-button:hover {
+  background-color: $danger !important;
+  color: $body-color-dark;
+}
+
+.nav-shade {
+  background-color: darken($shade-color, 5%);
+}
+.nav-shade:hover {
+  background-color: darken($shade-color, 10%);
 }

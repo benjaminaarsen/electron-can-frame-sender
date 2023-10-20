@@ -23,10 +23,13 @@ export module getDevices {
 export module openDevice {
   ipcMain.on('open-device', (event, devicePath) => {
     can.open(devicePath).catch((err) => {
-      dialog.showErrorBox(
-        'Error',
-        `${err.message}\n\nMake sure the device is not in use.`,
-      );
+      if (getCurrentDevice()) {
+        dialog.showErrorBox(
+          'Error',
+          `${err.message}\n\nMake sure the device is not in use.`,
+        );
+      }
+
       // console.log(err);
       setCurrentDevice(devicePath);
     });

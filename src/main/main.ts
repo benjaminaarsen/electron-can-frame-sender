@@ -96,20 +96,6 @@ const createWindow = async () => {
   mainWindow.webContents.on('did-finish-load', () => {
     const localStorage = loadSettings();
     mainWindow?.webContents.send('load-settings', localStorage);
-    updateDevices()
-      .then(() => {
-        const devices = getDevices();
-        console.log(devices);
-        devices.forEach((device) => {
-          if (device.path === parseInt((localStorage as Storage)?.device, 10)) {
-            can.open(device.path).catch((err) => {
-              console.log(err);
-            });
-            // mainWindow?.webContents.send('open-device', device.path);
-          }
-        });
-      })
-      .catch(console.log);
   });
 
   mainWindow.on('closed', () => {
@@ -167,6 +153,18 @@ ipcMain.on('minimize-app', () => {
   }
 });
 
+ipcMain.on('maximize-app', () => {
+  mainWindow?.maximize();
+});
+
+ipcMain.on('unmaximize-app', () => {
+  mainWindow?.unmaximize();
+});
+
+ipcMain.handle('is-maximized', () => {
+  return mainWindow?.isMaximized();
+});
+
 ipcMain.on('save-settings', (event, localStorage: Storage) => {
   const userData = app.getPath('userData');
   fs.writeFile(
@@ -178,9 +176,9 @@ ipcMain.on('save-settings', (event, localStorage: Storage) => {
 
 usb.on('attach', () => {
   updateDevices();
-  console.log('attach');
+  // console.log('attach');
 });
 usb.on('detach', () => {
   updateDevices();
-  console.log('detach');
+  // console.log('detach');
 });

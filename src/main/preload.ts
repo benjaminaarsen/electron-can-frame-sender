@@ -34,6 +34,16 @@ const WINDOW_API = {
   minimizeApp: () => {
     ipcRenderer.send('minimize-app');
   },
+  maximizeApp: () => {
+    ipcRenderer.send('maximize-app');
+  },
+  unmaximizeApp: () => {
+    ipcRenderer.send('unmaximize-app');
+  },
+  isMaximized: () => {
+    const promise = ipcRenderer.invoke('is-maximized');
+    return promise;
+  },
   closeApp: () => {
     ipcRenderer.send('close-app');
   },
