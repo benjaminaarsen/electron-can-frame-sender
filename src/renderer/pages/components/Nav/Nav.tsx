@@ -27,7 +27,10 @@ function Nav({ Initdevice }: { Initdevice: number | null }) {
       // const d = await window.api.getCurrentDevice();
       // console.log(d);
       // console.log(Initdevice);
-      return setDevice(`PeakCAN handle: ${Initdevice}`);
+      if (Initdevice) {
+        return setDevice(`PeakCAN handle: ${Initdevice}`);
+      }
+      return setDevice(null);
     })();
   }, [Initdevice]);
 

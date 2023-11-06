@@ -9,6 +9,8 @@ import DbcView from './pages/Home/DbcView';
 
 export default function App() {
   const [device, setDevice] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     (async () => {
       const currentDevice = await window.api.getCurrentDevice();
@@ -17,15 +19,27 @@ export default function App() {
         return;
       }
       await window.api.updateDevices();
-      const devices = await window.api.getDevices();
-      devices.forEach((d: any) => {
-        if (d.path === parseInt(localStorage.getItem('device') || '', 10)) {
-          window.api.openDevice(d.path);
-          setDevice(d.path);
-        }
-      });
+      window.api
+        .getDevices()
+        .then((devices) => {
+          if (devices.length === 0) {
+            setLoading(false);
+            setDevice(null);
+            return;
+          }
+          devices.forEach((d: any) => {
+            if (d.path === parseInt(localStorage.getItem('device') || '', 10)) {
+              window.api.openDevice(d.path);
+              setDevice(d.path);
+              setLoading(false);
+            }
+          });
+          return;
+        })
+        .catch(console.log);
     })();
   });
+  if (loading) return null;
   return (
     <Router>
       <Container fluid className="p-0 position-fixed z-1">
