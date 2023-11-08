@@ -54,7 +54,10 @@ const WINDOW_API = {
     ipcRenderer.send('close-device');
   },
   openDbcFile: () => {
-    const promise = ipcRenderer.invoke('open-dbc-file');
+    ipcRenderer.send('open-dbc-file');
+  },
+  getDbcData: () => {
+    const promise = ipcRenderer.invoke('get-dbc-data');
     return promise;
   },
   updateDevices: () => {

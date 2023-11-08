@@ -16,6 +16,7 @@ export default function App() {
       const currentDevice = await window.api.getCurrentDevice();
       if (currentDevice) {
         setDevice(currentDevice);
+        setLoading(false);
         return;
       }
       await window.api.updateDevices();
@@ -38,6 +39,7 @@ export default function App() {
         })
         .catch(console.log);
     })();
+    console.log('test');
   });
   if (loading) return null;
   return (

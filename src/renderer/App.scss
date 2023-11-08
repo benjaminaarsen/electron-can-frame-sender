@@ -23,8 +23,10 @@ $shade-color: darken($body-tertiary-bg, 3%);
 $shade-color-dark: lighten($body-secondary-bg-dark, 3%);
 
 @include color-mode(dark) {
-  .shade-color {
-    background-color: $shade-color-dark;
+  @for $i from 0 through 10 {
+    .shade-#{$i} {
+      background-color: lighten($shade-color-dark, $i * 2%);
+    }
   }
 
   .nav-shade {
@@ -35,8 +37,10 @@ $shade-color-dark: lighten($body-secondary-bg-dark, 3%);
   }
 }
 
-.shade-color {
-  background-color: $shade-color;
+@for $i from 0 through 10 {
+  .shade-#{$i} {
+    background-color: darken($shade-color, $i * 2%);
+  }
 }
 
 .close-button:hover {

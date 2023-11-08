@@ -1,8 +1,5 @@
 import { Button } from 'react-bootstrap';
-
-import { DbcData } from 'dbc-can/lib/dbc/Dbc';
 import { useNavigate } from 'react-router-dom';
-import { setData } from '../../../Home/DbcView';
 
 function DbcButton() {
   const navigate = useNavigate();
@@ -11,10 +8,15 @@ function DbcButton() {
     <Button
       variant="primary"
       onClick={async () => {
-        const data: DbcData = await window.api.openDbcFile();
+        await window.api.openDbcFile();
+        const data = await window.api.getDbcData();
+        console.log(data);
         if (!data) return;
+        //check that we are not already on the DBC page
+        if (window.location.pathname === '/dbc') {
+          return;
+        }
         navigate('/dbc');
-        setData(data);
       }}
     >
       Open DBC File
