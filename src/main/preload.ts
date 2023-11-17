@@ -84,6 +84,14 @@ const WINDOW_API = {
       ipcRenderer.removeListener('resized', subscription);
     };
   },
+  onDbcFileLoaded(func: () => void) {
+    const subscription = () => func();
+    ipcRenderer.on('dbc-file-loaded', subscription);
+
+    return () => {
+      ipcRenderer.removeListener('dbc-file-loaded', subscription);
+    };
+  },
 };
 // contextBridge.exposeInMainWorld('api', electronHandler);
 contextBridge.exposeInMainWorld('api', WINDOW_API);

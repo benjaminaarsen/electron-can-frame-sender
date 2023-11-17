@@ -1,4 +1,4 @@
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 
@@ -10,7 +10,7 @@ import DbcView from './pages/Home/DbcView';
 export default function App() {
   const [device, setDevice] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
   useEffect(() => {
     (async () => {
       const currentDevice = await window.api.getCurrentDevice();
@@ -39,11 +39,17 @@ export default function App() {
         })
         .catch(console.log);
     })();
-    console.log('test');
+  });
+
+  useEffect(() => {
+    window.api.onDbcFileLoaded(() => {
+      console.log('DBC file loaded');
+      navigate('/dbc');
+    });
   });
   if (loading) return null;
   return (
-    <Router>
+    <>
       <Container fluid className="p-0 position-fixed z-1">
         <Nav Initdevice={device} />
       </Container>
@@ -51,6 +57,6 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/dbc" element={<DbcView />} />
       </Routes>
-    </Router>
+    </>
   );
 }

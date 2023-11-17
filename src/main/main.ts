@@ -14,7 +14,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import fs from 'fs';
 import { usb } from 'usb';
-import { can, getDevices, updateDevices } from './util/can';
+import { can, updateDevices } from './util/can';
 import { resolveHtmlPath, loadSettings } from './util';
 import './ipc/index';
 

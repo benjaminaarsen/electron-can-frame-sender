@@ -4,6 +4,13 @@ import {
   openDevice,
   closeDevice,
 } from './can/canCallback';
-import openDbcFile from './dbc/dbcCallback';
+import { openDbcFile, getDbcData } from './dbc/dbcCallback';
 
-export { updateDevices, getDevices, openDevice, closeDevice, openDbcFile };
+export {
+  updateDevices,
+  getDevices,
+  openDevice,
+  closeDevice,
+  openDbcFile,
+  getDbcData,
+};
