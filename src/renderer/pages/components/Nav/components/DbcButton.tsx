@@ -5,7 +5,6 @@ function DbcButton() {
     <Button
       variant="primary"
       onClick={() => {
-        console.log('clicked');
         window.api.openDbcFile();
       }}
     >

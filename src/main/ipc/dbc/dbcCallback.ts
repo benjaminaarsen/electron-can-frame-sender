@@ -28,7 +28,7 @@ export module openDbcFile {
       dbcData = result;
       BrowserWindow.fromWebContents(
         webContents.getFocusedWebContents()!,
-      )?.webContents.send('dbc-file-opened');
+      )?.webContents.send('dbc-file-loaded');
     }
     return null;
   });

@@ -42,8 +42,7 @@ export default function App() {
   });
 
   useEffect(() => {
-    window.api.onDbcFileLoaded(() => {
-      console.log('DBC file loaded');
+    return window.api.onDbcFileLoaded(() => {
       navigate('/dbc');
     });
   });
