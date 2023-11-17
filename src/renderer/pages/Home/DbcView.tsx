@@ -1,6 +1,6 @@
 import { CSSProperties, JSX, useEffect, useState } from 'react';
 import { DbcData, Message } from 'dbc-can/lib/dbc/Dbc';
-import { Card, Container } from 'react-bootstrap';
+import { Card, Container, Form } from 'react-bootstrap';
 
 function Cards({ messages }: { messages: Map<string, Message> }) {
   const cards: JSX.Element[] = [];
@@ -8,25 +8,38 @@ function Cards({ messages }: { messages: Map<string, Message> }) {
   messages.forEach((message) => {
     message.signals.forEach((signal) => {
       signals.push(
-        <Card
-          key={`${signal.name} ${message.id}`}
-          className="g-col-4 shade-2 border-0 m-3"
-        >
-          <Card.Text>{signal.name}</Card.Text>
-          <Card.Text>{signal.description}</Card.Text>
-          <Card.Text>{signal.length}</Card.Text>
-          <Card.Text>{signal.endian}</Card.Text>
-          <Card.Text>{signal.dataType}</Card.Text>
-          <Card.Text>{signal.factor}</Card.Text>
-          <Card.Text>{signal.offset}</Card.Text>
-          <Card.Text>{signal.unit}</Card.Text>
-        </Card>,
+        <span className="d-flex justify-content-between">
+          {signal.length === 1 ? (
+            <>
+              <Form.Label className="text-wrap w-90">{`${signal.name}`}</Form.Label>
+              <Form.Check type="checkbox" />
+            </>
+          ) : (
+            <>
+              <Form.Label className="text-wrap w-70">{`${signal.name}`}</Form.Label>
+              <Form.Control
+                className="w-30"
+                type="number"
+                min={0}
+                max={2 ** signal.length - 1}
+              />
+            </>
+          )}
+        </span>,
       );
     });
 
     cards.push(
-      <Card key={message.name} className="g-col-4 shade-0 border-0">
-        <Card.Body>{signals}</Card.Body>
+      <Card
+        key={message.name}
+        className="g-col-md-4 g-col-xl-3 shade-0 border-0"
+      >
+        <Card.Body>
+          <Card.Title>{`${message.name} 0x${message.id.toString(
+            16,
+          )}`}</Card.Title>
+          {signals}
+        </Card.Body>
       </Card>,
     );
   });
@@ -35,18 +48,15 @@ function Cards({ messages }: { messages: Map<string, Message> }) {
 
 function DbcView() {
   const containerStyle: CSSProperties = { paddingTop: '75px' };
-  const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState<Map<string, Message>>(new Map());
   useEffect(() => {
     window.api
       .getDbcData()
       .then((d: DbcData) => {
-        setMessages(d.messages);
-        return setLoading(false);
+        return setMessages(d.messages);
       })
       .catch(console.log);
   });
-  if (loading) return null;
   return (
     <Container style={containerStyle} className="grid">
       <Cards messages={messages} />
