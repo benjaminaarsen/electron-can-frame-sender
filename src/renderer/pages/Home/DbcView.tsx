@@ -1,31 +1,63 @@
-import { CSSProperties, JSX, useEffect, useState } from 'react';
-import { DbcData, Message } from 'dbc-can/lib/dbc/Dbc';
+import { CSSProperties, EventHandler, JSX, useEffect, useState } from 'react';
+import { DbcData, Message, Signal } from 'dbc-can/lib/dbc/Dbc';
 import { Card, Container, Form } from 'react-bootstrap';
 
+function InputRange({ signal }: { signal: Signal }) {
+  const [rangeValue, setRangeValue] = useState(0);
+  const handleChange = (e) => {
+    setRangeValue(e.target.value);
+  };
+  return (
+    <>
+      <span className="d-flex justify-content-between">
+        <Form.Label className="text-wrap w-70">{`${signal.name}`}</Form.Label>
+        <Form.Text className="text-wrap user-select-none">{`${rangeValue}`}</Form.Text>
+      </span>
+      <Form.Range
+        min={0}
+        max={2 ** signal.length - 1}
+        onChange={handleChange}
+      />
+    </>
+  );
+}
+
 function Cards({ messages }: { messages: Map<string, Message> }) {
+  const oneBitSignal = (signal: Signal) => {
+    return (
+      <span className="d-flex justify-content-between">
+        <Form.Label className="text-wrap w-90">{`${signal.name}`}</Form.Label>
+        <Form.Check type="checkbox" />
+      </span>
+    );
+  };
+  const twoBitSignal = (signal: Signal) => {
+    return (
+      <span className="d-flex justify-content-between">
+        <Form.Label className="text-wrap w-60">{`${signal.name}`}</Form.Label>
+        <Form.Label className="text-wrap">Bit 0: </Form.Label>
+        <Form.Check type="checkbox" />
+        <Form.Label className="text-wrap">Bit 1: </Form.Label>
+        <Form.Check type="checkbox" />
+      </span>
+    );
+  };
   const cards: JSX.Element[] = [];
-  const signals: JSX.Element[] = [];
   messages.forEach((message) => {
+    const signals: JSX.Element[] = [];
     message.signals.forEach((signal) => {
       signals.push(
-        <span className="d-flex justify-content-between">
-          {signal.length === 1 ? (
-            <>
-              <Form.Label className="text-wrap w-90">{`${signal.name}`}</Form.Label>
-              <Form.Check type="checkbox" />
-            </>
-          ) : (
-            <>
-              <Form.Label className="text-wrap w-70">{`${signal.name}`}</Form.Label>
-              <Form.Control
-                className="w-30"
-                type="number"
-                min={0}
-                max={2 ** signal.length - 1}
-              />
-            </>
-          )}
-        </span>,
+        <>
+          {(() => {
+            if (signal.length === 1) {
+              return oneBitSignal(signal);
+            }
+            if (signal.length === 2) {
+              return twoBitSignal(signal);
+            }
+            return InputRange({ signal });
+          })()}
+        </>,
       );
     });
 
@@ -57,6 +89,7 @@ function DbcView() {
       })
       .catch(console.log);
   });
+
   return (
     <Container style={containerStyle} className="grid">
       <Cards messages={messages} />
