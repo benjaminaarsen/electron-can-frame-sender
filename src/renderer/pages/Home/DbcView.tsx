@@ -9,11 +9,13 @@ function InputRange({ signal }: { signal: Signal }) {
   };
   return (
     <>
-      <span className="d-flex justify-content-between">
+      <span key={signal.name} className="d-flex justify-content-between">
         <Form.Label className="text-wrap w-70">{`${signal.name}`}</Form.Label>
         <Form.Text className="text-wrap user-select-none">{`${rangeValue}`}</Form.Text>
       </span>
       <Form.Range
+        key={`${signal.name} range`}
+        value={rangeValue}
         min={0}
         max={2 ** signal.length - 1}
         onChange={handleChange}
@@ -25,7 +27,7 @@ function InputRange({ signal }: { signal: Signal }) {
 function Cards({ messages }: { messages: Map<string, Message> }) {
   const oneBitSignal = (signal: Signal) => {
     return (
-      <span className="d-flex justify-content-between">
+      <span key={signal.name} className="d-flex justify-content-between">
         <Form.Label className="text-wrap w-90">{`${signal.name}`}</Form.Label>
         <Form.Check type="checkbox" />
       </span>
@@ -33,7 +35,7 @@ function Cards({ messages }: { messages: Map<string, Message> }) {
   };
   const twoBitSignal = (signal: Signal) => {
     return (
-      <span className="d-flex justify-content-between">
+      <span key={signal.name} className="d-flex justify-content-between">
         <Form.Label className="text-wrap w-60">{`${signal.name}`}</Form.Label>
         <Form.Label className="text-wrap">Bit 0: </Form.Label>
         <Form.Check type="checkbox" />
