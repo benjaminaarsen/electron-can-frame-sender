@@ -12,7 +12,7 @@ export default function CanButtons() {
           setSending(!sending);
         }}
       >
-        Send Messages
+        {sending ? 'Start sending' : 'Stop sending'}
       </Button>
     </div>
   );
