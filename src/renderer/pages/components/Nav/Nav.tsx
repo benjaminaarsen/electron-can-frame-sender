@@ -24,9 +24,6 @@ function Nav({ Initdevice }: { Initdevice: number | null }) {
 
   useEffect(() => {
     (async () => {
-      // const d = await window.api.getCurrentDevice();
-      // console.log(d);
-      // console.log(Initdevice);
       if (Initdevice) {
         return setDevice(`PeakCAN handle: ${Initdevice}`);
       }

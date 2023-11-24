@@ -1,6 +1,6 @@
-import { CSSProperties, EventHandler, JSX, useEffect, useState } from 'react';
-import { DbcData, Message, Signal } from 'dbc-can/lib/dbc/Dbc';
-import { Card, Container, Form } from 'react-bootstrap';
+import { JSX, useState } from 'react';
+import { Message, Signal } from 'dbc-can/lib/dbc/Dbc';
+import { Card, Form } from 'react-bootstrap';
 
 function InputRange({ signal }: { signal: Signal }) {
   const [rangeValue, setRangeValue] = useState(0);
@@ -24,7 +24,11 @@ function InputRange({ signal }: { signal: Signal }) {
   );
 }
 
-function Cards({ messages }: { messages: Map<string, Message> }) {
+export default function Cards({
+  messages,
+}: {
+  messages: Map<string, Message>;
+}) {
   const oneBitSignal = (signal: Signal) => {
     return (
       <span key={signal.name} className="d-flex justify-content-between">
@@ -79,33 +83,3 @@ function Cards({ messages }: { messages: Map<string, Message> }) {
   });
   return cards;
 }
-
-function DbcView() {
-  const containerStyle: CSSProperties = {
-    top: '10vh',
-    height: '85vh',
-    overflowY: 'scroll',
-    // position: 'absolute',
-  };
-  const [messages, setMessages] = useState<Map<string, Message>>(new Map());
-  useEffect(() => {
-    window.api
-      .getDbcData()
-      .then((d: DbcData) => {
-        return setMessages(d.messages);
-      })
-      .catch(console.log);
-  });
-
-  return (
-    <Container fluid className="mt-4">
-      <Container fluid style={containerStyle}>
-        <Container fluid className="grid">
-          <Cards messages={messages} />
-        </Container>
-      </Container>
-    </Container>
-  );
-}
-
-export default DbcView;

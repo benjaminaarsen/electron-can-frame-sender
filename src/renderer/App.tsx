@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Home from './pages/Home/Home';
 import './App.scss';
 import Nav from './pages/components/Nav/Nav';
-import DbcView from './pages/Home/DbcView';
+import DbcView from './pages/Home/DbcView/DbcView';
 
 export default function App() {
   const [device, setDevice] = useState(null);
