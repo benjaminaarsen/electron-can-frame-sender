@@ -66,7 +66,7 @@ function Cards({ messages }: { messages: Map<string, Message> }) {
     cards.push(
       <Card
         key={message.name}
-        className="g-col-md-4 g-col-xl-3 shade-0 border-0"
+        className="g-col-md-4 g-col-xl-2 shade-0 border-0"
       >
         <Card.Body>
           <Card.Title>{`${message.name} 0x${message.id.toString(
@@ -81,7 +81,12 @@ function Cards({ messages }: { messages: Map<string, Message> }) {
 }
 
 function DbcView() {
-  const containerStyle: CSSProperties = { paddingTop: '75px' };
+  const containerStyle: CSSProperties = {
+    top: '10vh',
+    height: '85vh',
+    overflowY: 'scroll',
+    // position: 'absolute',
+  };
   const [messages, setMessages] = useState<Map<string, Message>>(new Map());
   useEffect(() => {
     window.api
@@ -93,8 +98,12 @@ function DbcView() {
   });
 
   return (
-    <Container style={containerStyle} className="grid">
-      <Cards messages={messages} />
+    <Container fluid className="mt-4">
+      <Container fluid style={containerStyle}>
+        <Container fluid className="grid">
+          <Cards messages={messages} />
+        </Container>
+      </Container>
     </Container>
   );
 }

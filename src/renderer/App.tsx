@@ -49,7 +49,7 @@ export default function App() {
   if (loading) return null;
   return (
     <>
-      <Container fluid className="p-0 position-fixed z-1">
+      <Container fluid className="p-0 z-1">
         <Nav Initdevice={device} />
       </Container>
       <Routes>
