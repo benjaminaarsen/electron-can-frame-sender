@@ -70,7 +70,7 @@ export default function Cards({
     cards.push(
       <Card
         key={message.name}
-        className="g-col-md-4 g-col-xl-2 shade-0 border-0"
+        className="g-col-12 g-col-sm-6 g-col-md-4 g-col-lg-3 g-col-xxl-2 shade-0 border-0"
       >
         <Card.Body>
           <Card.Title>{`${message.name} 0x${message.id.toString(
