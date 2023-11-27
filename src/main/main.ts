@@ -10,21 +10,11 @@
  */
 import path from 'path';
 import { app, BrowserWindow, ipcMain, shell } from 'electron';
-import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
 import fs from 'fs';
 import { usb } from 'usb';
 import { can, updateDevices } from './util/can';
 import { resolveHtmlPath, loadSettings } from './util';
 import './ipc/index';
-
-class AppUpdater {
-  constructor() {
-    log.transports.file.level = 'info';
-    autoUpdater.logger = log;
-    autoUpdater.checkForUpdatesAndNotify();
-  }
-}
 
 let mainWindow: BrowserWindow | null = null;
 
