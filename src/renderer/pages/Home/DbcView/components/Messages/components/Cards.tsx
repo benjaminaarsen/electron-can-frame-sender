@@ -1,4 +1,4 @@
-import { JSX, useState } from 'react';
+import { Fragment, JSX, useState } from 'react';
 import { Message, Signal } from 'dbc-can/lib/dbc/Dbc';
 import { Card, Form } from 'react-bootstrap';
 
@@ -9,7 +9,7 @@ function InputRange({ signal }: { signal: Signal }) {
   };
   return (
     <>
-      <span key={signal.name} className="d-flex justify-content-between">
+      <span className="d-flex justify-content-between">
         <Form.Label className="text-wrap w-70">{`${signal.name}`}</Form.Label>
         <Form.Text className="text-wrap user-select-none">{`${rangeValue}`}</Form.Text>
       </span>
@@ -31,7 +31,7 @@ export default function Cards({
 }) {
   const oneBitSignal = (signal: Signal) => {
     return (
-      <span key={signal.name} className="d-flex justify-content-between">
+      <span className="d-flex justify-content-between">
         <Form.Label className="text-wrap w-90">{`${signal.name}`}</Form.Label>
         <Form.Check type="checkbox" />
       </span>
@@ -39,13 +39,25 @@ export default function Cards({
   };
   const twoBitSignal = (signal: Signal) => {
     return (
-      <span key={signal.name} className="d-flex justify-content-between">
-        <Form.Label className="text-wrap w-60">{`${signal.name}`}</Form.Label>
-        <Form.Label className="text-wrap">Bit 0: </Form.Label>
-        <Form.Check type="checkbox" />
-        <Form.Label className="text-wrap">Bit 1: </Form.Label>
-        <Form.Check type="checkbox" />
-      </span>
+      <>
+        <span className="d-flex justify-content-between">
+          <Form.Label className="text-wrap w-100">{`${signal.name}`}</Form.Label>
+        </span>
+        <Form className="d-flex justify-content-between">
+          {[0, 1, 2, 3].map((i) => {
+            return (
+              <Form.Check
+                key={`${signal.name} ${i}`}
+                inline
+                label={`${i}`}
+                name={signal.name}
+                type="radio"
+                id={`inline-radio-${i}`}
+              />
+            );
+          })}
+        </Form>
+      </>
     );
   };
   const cards: JSX.Element[] = [];
@@ -53,7 +65,7 @@ export default function Cards({
     const signals: JSX.Element[] = [];
     message.signals.forEach((signal) => {
       signals.push(
-        <>
+        <Fragment key={signal.name}>
           {(() => {
             if (signal.length === 1) {
               return oneBitSignal(signal);
@@ -63,10 +75,9 @@ export default function Cards({
             }
             return InputRange({ signal });
           })()}
-        </>,
+        </Fragment>,
       );
     });
-
     cards.push(
       <Card
         key={message.name}

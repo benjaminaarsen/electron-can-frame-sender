@@ -19,7 +19,7 @@ function DbcView() {
         return setMessages(d.messages);
       })
       .catch(console.log);
-  });
+  }, []);
 
   return (
     <Container fluid className="mt-3">
