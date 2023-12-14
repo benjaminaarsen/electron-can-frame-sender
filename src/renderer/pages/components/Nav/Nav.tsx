@@ -15,21 +15,12 @@ import getTheme from '../../../util/getTheme';
 import DbcButton from './components/DbcButton';
 import DisconnectButton from './components/DisconnectButton';
 
-function Nav({ Initdevice }: { Initdevice: number | null }) {
+function Nav() {
   const [theme, setTheme] = useState(getTheme());
   // const [variant, setVariant] = useState('danger');
   const [dropdownKey, setDropdownKey] = useState(0);
   const [device, setDevice] = useState<string | null>(null);
   const [maximized, setMaximized] = useState(false);
-
-  useEffect(() => {
-    (async () => {
-      if (Initdevice) {
-        return setDevice(`PeakCAN handle: ${Initdevice}`);
-      }
-      return setDevice(null);
-    })();
-  }, [Initdevice]);
 
   useEffect(() => {
     return window.api.handleResize(() => {
@@ -41,7 +32,7 @@ function Nav({ Initdevice }: { Initdevice: number | null }) {
         })
         .catch(console.log);
     });
-  });
+  }, []);
   function handleDropDownClick(prevKey: number) {
     return () => {
       setDropdownKey((prevKey + 1) % 2);

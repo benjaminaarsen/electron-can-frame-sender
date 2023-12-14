@@ -175,9 +175,9 @@ ipcMain.on('save-settings', (event, localStorage: Storage) => {
 
 usb.on('attach', () => {
   updateDevices();
-  // console.log('attach');
+  mainWindow?.webContents.send('update-devices');
 });
 usb.on('detach', () => {
   updateDevices();
-  // console.log('detach');
+  mainWindow?.webContents.send('update-devices');
 });

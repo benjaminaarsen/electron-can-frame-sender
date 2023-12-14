@@ -92,6 +92,14 @@ const WINDOW_API = {
       ipcRenderer.removeListener('dbc-file-loaded', subscription);
     };
   },
+  onUpdateDevices(func: () => void) {
+    const subscription = () => func();
+    ipcRenderer.on('update-devices', subscription);
+
+    return () => {
+      ipcRenderer.removeListener('update-devices', subscription);
+    };
+  },
 };
 // contextBridge.exposeInMainWorld('api', electronHandler);
 contextBridge.exposeInMainWorld('api', WINDOW_API);

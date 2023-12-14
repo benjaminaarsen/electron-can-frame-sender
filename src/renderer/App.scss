@@ -84,6 +84,10 @@ $shade-color-dark: lighten($body-secondary-bg-dark, 3%);
   background-clip: padding-box;
 }
 
+::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
 @mixin switch($res: 'sm') {
   $index: 1rem;
   $mainVal: 1rem;
