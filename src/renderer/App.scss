@@ -1,6 +1,6 @@
 $enable-grid-classes: false;
 $enable-cssgrid: true;
-$body-bg: rgb(227, 230, 235);
+// $body-bg: rgb(227, 230, 235);
 @import '~bootstrap/scss/bootstrap';
 
 .absolute-center {
@@ -20,7 +20,19 @@ $body-bg: rgb(227, 230, 235);
   -webkit-app-region: no-drag;
 }
 
-$shade-color: darken($body-tertiary-bg, 3%);
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+$shade-color: darken($body-tertiary-bg, 0%);
 $shade-color-dark: lighten($body-secondary-bg-dark, 3%);
 
 @for $i from 0 through 100 {
@@ -115,7 +127,7 @@ $shade-color-dark: lighten($body-secondary-bg-dark, 3%);
   clear: left;
 }
 
-.form-check-input:checked {
+#can-send-switch:checked {
   background-color: $success !important;
   border-color: $success !important;
 }
