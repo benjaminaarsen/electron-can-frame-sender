@@ -7,6 +7,12 @@ export const can = new Can({
 let devices: any[] = [];
 let currentDevice: any = null;
 
+export type CanData = {
+  id: number;
+  ext: boolean;
+  buf: Buffer;
+};
+
 export const updateDevices = async () => {
   devices = await can.list();
   // console.log(devices);
@@ -22,4 +28,8 @@ export const getCurrentDevice = () => {
 
 export const setCurrentDevice = (device: any) => {
   currentDevice = device;
+};
+
+export const sendData = async (data: CanData) => {
+  await can.write(data);
 };

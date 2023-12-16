@@ -6,6 +6,8 @@ import {
   getDevices as _getDevices,
   setCurrentDevice,
   getCurrentDevice,
+  sendData,
+  CanData,
 } from '../../util/can';
 
 export module updateDevices {
@@ -50,5 +52,11 @@ export module getDevice {
 export module closeDevice {
   ipcMain.on('close-device', () => {
     can.close();
+  });
+}
+
+export module sendCanData {
+  ipcMain.on('send-data', (event, data: CanData) => {
+    sendData(data);
   });
 }
