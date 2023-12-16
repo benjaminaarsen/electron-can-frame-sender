@@ -6,7 +6,7 @@ import {
   DropdownButton,
   Navbar,
 } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { XLg, DashLg, Fullscreen, FullscreenExit } from 'react-bootstrap-icons';
 import ThemeIcon from './components/ThemeIcon';
 import PeakDevices from './components/PeakDevice/PeakDevices';

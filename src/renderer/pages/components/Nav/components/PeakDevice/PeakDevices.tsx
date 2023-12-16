@@ -1,5 +1,4 @@
-import React = require('react');
-import { useEffect, useState, JSX } from 'react';
+import React, { useEffect, useState, JSX } from 'react';
 import { DropdownItem } from 'react-bootstrap';
 import PeakDevice from './PeakDevice';
 

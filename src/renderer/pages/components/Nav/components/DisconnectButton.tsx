@@ -1,4 +1,5 @@
 import { Button } from 'react-bootstrap';
+import React from 'react';
 
 function DisconnectButton({ setDevice }: { setDevice: Function }) {
   return (

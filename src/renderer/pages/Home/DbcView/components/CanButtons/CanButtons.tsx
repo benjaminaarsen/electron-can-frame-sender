@@ -1,14 +1,32 @@
-import { Form } from 'react-bootstrap';
+import { Form, Stack } from 'react-bootstrap';
+import React from 'react';
 
 function SendSwitch() {
   return (
-    <div className="form-check form-switch form-switch-md me-2">
+    <div className="form-check form-switch form-switch-md">
       <input
         type="checkbox"
         role="switch"
         name="can-send-switch"
         id="can-send-switch"
         className="form-check-input"
+        onChange={(e) => {
+          console.log(e.target.checked);
+        }}
+      />
+    </div>
+  );
+}
+
+function FrequencyField() {
+  return (
+    <div className="input-group form-inline input-group w-20">
+      <span className="input-group-text">Frequency (Hz)</span>
+      <input
+        type="number"
+        className="form-control"
+        aria-label="Frequency"
+        defaultValue={200}
       />
     </div>
   );
@@ -16,9 +34,16 @@ function SendSwitch() {
 
 export default function CanButtons() {
   return (
-    <div className="mb-3 d-flex align-items-center">
-      <SendSwitch />
-      <Form.Label className="m-0">Send CAN messages</Form.Label>
-    </div>
+    <Stack
+      direction="horizontal"
+      gap={3}
+      className="mb-3 border rounded p-2 shade-0"
+    >
+      <>
+        <Form.Label className="m-0">Send CAN messages</Form.Label>
+        <SendSwitch />
+      </>
+      <FrequencyField />
+    </Stack>
   );
 }

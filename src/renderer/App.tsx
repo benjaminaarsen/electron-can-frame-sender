@@ -1,6 +1,6 @@
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import Home from './pages/Home/Home';
 import './App.scss';

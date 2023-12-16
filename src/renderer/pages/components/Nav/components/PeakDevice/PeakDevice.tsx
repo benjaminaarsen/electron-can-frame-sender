@@ -1,4 +1,4 @@
-import React = require('react');
+import React from 'react';
 import { Dropdown } from 'react-bootstrap';
 
 function PeakDevice({
