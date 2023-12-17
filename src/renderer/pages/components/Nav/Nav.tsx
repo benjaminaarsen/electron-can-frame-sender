@@ -6,7 +6,7 @@ import {
   DropdownButton,
   Navbar,
 } from 'react-bootstrap';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { XLg, DashLg, Fullscreen, FullscreenExit } from 'react-bootstrap-icons';
 import ThemeIcon from './components/ThemeIcon';
 import PeakDevices from './components/PeakDevice/PeakDevices';
@@ -24,23 +24,16 @@ function SelectDevice({
   device: string | null;
   setDevice: React.Dispatch<React.SetStateAction<string | null>>;
 }) {
-  const [dropdownKey, setDropdownKey] = useState(0);
-  const handleDropDownClick = useCallback((prevKey: number) => {
-    return () => {
-      setDropdownKey((prevKey + 1) % 2);
-    };
-  }, []);
-
   return (
     <DropdownButton
-      onClick={handleDropDownClick(dropdownKey)}
+      // onClick={handleDropDownClick(dropdownKey)}
       variant={variant}
       className="ms-2"
       disabled={!!device}
       as={ButtonGroup}
       title={device || 'Select Device'}
     >
-      <PeakDevices key={dropdownKey} setDevice={setDevice} />
+      <PeakDevices setDevice={setDevice} />
     </DropdownButton>
   );
 }
@@ -95,7 +88,7 @@ function Nav() {
         <ButtonGroup className="rounded-pill overflow-hidden">
           <Button
             variant="btn-link"
-            className="border-0 nav-shade"
+            className="border-0 nav-shade ps-3"
             onClick={() => {
               window.api.minimizeApp();
             }}
@@ -104,7 +97,7 @@ function Nav() {
           </Button>
           <Button
             variant="btn-link"
-            className="border-0 nav-shade"
+            className="border-0 nav-shade px-3"
             onClick={() => {
               if (maximized) {
                 window.api.unmaximizeApp();
@@ -121,7 +114,7 @@ function Nav() {
           </Button>
           <Button
             variant="btn-link"
-            className="border-0 nav-shade close-button"
+            className="border-0 nav-shade close-button pe-3"
             onClick={() => {
               window.api.saveSettings(localStorage);
               window.api.closeApp();

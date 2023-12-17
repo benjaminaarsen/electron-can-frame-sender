@@ -9,19 +9,15 @@ import PeakDevice from './PeakDevice';
 
 function PeakDevices({ setDevice }: { setDevice: React.Dispatch<any> }) {
   const [elements, setElements] = useState<JSX.Element[]>([]);
-  const refreshPeakDevices = () => {
-    window.api
-      .getDevices()
-      .then((devices) => {
-        const el = devices.map((d) => {
-          return (
-            <PeakDevice key={d.path} path={d.path} setDevice={setDevice} />
-          );
-        });
-        return setElements(el);
-      })
-      .catch(console.log);
+
+  const refreshPeakDevices = async () => {
+    const devices = await window.api.getDevices();
+    const el = devices.map((d) => {
+      return <PeakDevice key={d.path} path={d.path} setDevice={setDevice} />;
+    });
+    return setElements(el);
   };
+
   useEffect(() => {
     window.api.updateDevices();
     refreshPeakDevices();

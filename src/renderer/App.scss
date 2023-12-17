@@ -149,3 +149,8 @@ $shade-color-dark: lighten($body-secondary-bg-dark, 3%);
 .form-switch.form-switch-xl {
   @include switch('xl');
 }
+
+img,
+svg {
+  vertical-align: -18%;
+}
