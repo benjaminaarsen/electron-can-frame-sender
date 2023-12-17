@@ -1,5 +1,5 @@
 import React, { CSSProperties, useEffect, useState } from 'react';
-import { DbcData, Message } from 'dbc-can/lib/dbc/Dbc';
+import { Message } from 'dbc-can/lib/dbc/Dbc';
 import { Container } from 'react-bootstrap';
 import Messages from './components/Messages/Messages';
 import CanButtons from './components/CanButtons/CanButtons';
@@ -14,21 +14,29 @@ function DbcView() {
     overflowY: 'scroll',
     // position: 'absolute',
   };
+  const updateMessages = async () => {
+    const dbcData = await window.api.getDbcData();
+    setMessages(await dbcData.messages);
+  };
+
   useEffect(() => {
-    window.api
-      .getDbcData()
-      .then((d: DbcData) => {
-        return setMessages(d.messages);
+    updateMessages()
+      .then(() => {
+        messages.forEach((message: Message) => {
+          messageDataStore.set(message.id, new Map());
+          message.signals.forEach((signal) => {
+            messageDataStore.get(message.id)?.set(signal.name, 0);
+          });
+        });
+        return true;
       })
       .catch(console.log);
-  }, []);
-  messages.forEach((message: Message) => {
-    messageDataStore.set(message.id, new Map());
-    message.signals.forEach((signal) => {
-      messageDataStore.get(message.id)?.set(signal.name, 0);
+    window.api.onDbcFileLoaded(() => {
+      updateMessages();
     });
-  });
-  console.log(messageDataStore);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Container fluid className="mt-3">
       <Container fluid style={containerStyle}>

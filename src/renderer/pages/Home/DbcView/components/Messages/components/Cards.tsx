@@ -1,14 +1,20 @@
-import React, { Fragment, JSX, useState } from 'react';
+import React, { Fragment, JSX, memo, useCallback, useState } from 'react';
 import { Message, Signal } from 'dbc-can/lib/dbc/Dbc';
 import { Card, Form } from 'react-bootstrap';
 import { messageDataStore } from '../../../MessageData';
 
-function InputRange({ message, signal }: { message: Message; signal: Signal }) {
+const InputRange = memo(function InputRange({
+  message,
+  signal,
+}: {
+  message: Message;
+  signal: Signal;
+}) {
   const [rangeValue, setRangeValue] = useState(0);
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     setRangeValue(e.target.value);
     messageDataStore.get(message.id)?.set(signal.name, e.target.value);
-  };
+  }, []);
   return (
     <>
       <span className="d-flex justify-content-between">
@@ -26,7 +32,7 @@ function InputRange({ message, signal }: { message: Message; signal: Signal }) {
       />
     </>
   );
-}
+});
 
 const oneBitSignal = ({
   message,
@@ -43,7 +49,6 @@ const oneBitSignal = ({
           messageDataStore
             .get(message.id)
             ?.set(signal.name, e.target.checked ? 1 : 0);
-          console.log(messageDataStore.get(message.id)?.get(signal.name));
         }}
         type="checkbox"
       />
@@ -78,7 +83,6 @@ const twoBitSignal = ({
                 messageDataStore
                   .get(message.id)
                   ?.set(signal.name, parseInt(e.target.value, 10));
-                console.log(messageDataStore.get(message.id)?.get(signal.name));
               }}
             />
           );
@@ -114,7 +118,7 @@ function SignalsCard({
                 if (signal.length === 2) {
                   return twoBitSignal({ message, signal });
                 }
-                return InputRange({ message, signal });
+                return <InputRange message={message} signal={signal} />;
               })()}
             </Fragment>
           );

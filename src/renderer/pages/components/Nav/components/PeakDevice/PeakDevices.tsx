@@ -9,7 +9,6 @@ import PeakDevice from './PeakDevice';
 
 function PeakDevices({ setDevice }: { setDevice: React.Dispatch<any> }) {
   const [elements, setElements] = useState<JSX.Element[]>([]);
-
   const refreshPeakDevices = () => {
     window.api
       .getDevices()
@@ -24,9 +23,11 @@ function PeakDevices({ setDevice }: { setDevice: React.Dispatch<any> }) {
       .catch(console.log);
   };
   useEffect(() => {
+    window.api.updateDevices();
     refreshPeakDevices();
-    return window.api.onUpdateDevices(refreshPeakDevices, []);
-  });
+    return window.api.onUpdateDevices(refreshPeakDevices);
+  }, []);
+
   if (elements.length > 0) return elements;
   return <DropdownItem>No devices found.</DropdownItem>;
 }
