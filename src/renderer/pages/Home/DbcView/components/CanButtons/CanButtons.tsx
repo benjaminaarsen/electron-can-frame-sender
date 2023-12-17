@@ -1,5 +1,4 @@
 import { Form, Stack } from 'react-bootstrap';
-import React from 'react';
 
 function SendSwitch() {
   return (

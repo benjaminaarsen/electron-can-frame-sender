@@ -47,7 +47,7 @@ function Nav() {
     return window.api.handleResize(() => {
       window.api
         .isMaximized()
-        .then((m) => {
+        .then((m: boolean) => {
           // console.log(m);
           return setMaximized(m);
         })

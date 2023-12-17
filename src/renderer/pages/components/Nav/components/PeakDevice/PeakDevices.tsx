@@ -12,7 +12,7 @@ function PeakDevices({ setDevice }: { setDevice: React.Dispatch<any> }) {
 
   const refreshPeakDevices = async () => {
     const devices = await window.api.getDevices();
-    const el = devices.map((d) => {
+    const el = devices.map((d: any) => {
       return <PeakDevice key={d.path} path={d.path} setDevice={setDevice} />;
     });
     return setElements(el);
@@ -22,6 +22,7 @@ function PeakDevices({ setDevice }: { setDevice: React.Dispatch<any> }) {
     window.api.updateDevices();
     refreshPeakDevices();
     return window.api.onUpdateDevices(refreshPeakDevices);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (elements.length > 0) return elements;

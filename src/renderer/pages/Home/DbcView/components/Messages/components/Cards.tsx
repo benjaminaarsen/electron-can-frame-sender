@@ -1,4 +1,4 @@
-import React, { Fragment, JSX, memo, useCallback, useState } from 'react';
+import { Fragment, JSX, memo, useCallback, useState } from 'react';
 import { Message, Signal } from 'dbc-can/lib/dbc/Dbc';
 import { Card, Form } from 'react-bootstrap';
 import { messageDataStore } from '../../../MessageData';

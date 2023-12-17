@@ -1,5 +1,4 @@
 import Container from 'react-bootstrap/esm/Container';
-import React from 'react';
 
 function Home() {
   return (
