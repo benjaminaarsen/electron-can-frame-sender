@@ -1,7 +1,7 @@
-import { Fragment, JSX, memo, useCallback, useState } from 'react';
+import { ChangeEvent, Fragment, JSX, memo, useCallback, useState } from 'react';
 import { Message, Signal } from 'dbc-can/lib/dbc/Dbc';
 import { Card, Form } from 'react-bootstrap';
-import { messageDataStore } from '../../../MessageData';
+import messageDataStore from '../../../MessageData';
 
 const InputRange = memo(function InputRange({
   message,
@@ -11,10 +11,15 @@ const InputRange = memo(function InputRange({
   signal: Signal;
 }) {
   const [rangeValue, setRangeValue] = useState(0);
-  const handleChange = useCallback((e) => {
-    setRangeValue(e.target.value);
-    messageDataStore.get(message.id)?.set(signal.name, e.target.value);
-  }, []);
+  const handleChange = useCallback(
+    (e: ChangeEvent) => {
+      setRangeValue(+(e.target as HTMLInputElement).value);
+      messageDataStore
+        .get(message.id)
+        ?.set(signal.name, +(e.target as HTMLInputElement).value);
+    },
+    [message.id, signal.name],
+  );
   return (
     <>
       <span className="d-flex justify-content-between">

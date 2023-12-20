@@ -1,4 +1,5 @@
 import { Form, Stack } from 'react-bootstrap';
+import { startSending, stopSending } from '../../SendData';
 
 function SendSwitch() {
   return (
@@ -11,6 +12,11 @@ function SendSwitch() {
         className="form-check-input"
         onChange={(e) => {
           console.log(e.target.checked);
+          if (e.target.checked) {
+            startSending();
+          } else {
+            stopSending();
+          }
         }}
       />
     </div>

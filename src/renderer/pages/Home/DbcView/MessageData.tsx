@@ -1,4 +1,4 @@
-export type SignalDataStore = Map<string, number>;
-export type MessageDataStore = Map<number, SignalDataStore>;
+import { MessageDataStore } from '../../../../shared/CanDataStore';
 
-export const messageDataStore: MessageDataStore = new Map();
+const messageDataStore: MessageDataStore = new Map();
+export default messageDataStore;

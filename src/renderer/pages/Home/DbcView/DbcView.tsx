@@ -4,7 +4,7 @@ import { Container } from 'react-bootstrap';
 import Messages from './components/Messages/Messages';
 import CanButtons from './components/CanButtons/CanButtons';
 // import { CanData } from '../../../../main/util/can';
-import { messageDataStore } from './MessageData';
+import messageDataStore from './MessageData';
 
 function DbcView() {
   const [messages, setMessages] = useState<Map<string, Message>>(new Map());
@@ -17,6 +17,7 @@ function DbcView() {
   const updateMessages = async () => {
     const dbcData = await window.api.getDbcData();
     setMessages(await dbcData.messages);
+    console.log(await dbcData.messages);
   };
 
   useEffect(() => {
