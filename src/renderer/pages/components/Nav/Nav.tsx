@@ -26,7 +26,6 @@ function SelectDevice({
 }) {
   return (
     <DropdownButton
-      // onClick={handleDropDownClick(dropdownKey)}
       variant={variant}
       className="ms-2"
       disabled={!!device}
@@ -39,7 +38,6 @@ function SelectDevice({
 }
 function Nav() {
   const [theme, setTheme] = useState(getTheme());
-  // const [variant, setVariant] = useState('danger');
   const [device, setDevice] = useState<string | null>(null);
   const [maximized, setMaximized] = useState(false);
 

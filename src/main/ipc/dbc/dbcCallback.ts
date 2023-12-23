@@ -35,7 +35,7 @@ export module openDbcFile {
 }
 
 export module getDbcData {
-  ipcMain.handle('get-dbc-data', async () => {
+  ipcMain.handle('get-dbc-data', () => {
     return dbcData;
   });
 }

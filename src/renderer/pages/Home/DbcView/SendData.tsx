@@ -5,7 +5,7 @@ let frequency: number = 200;
 let sendinterval: number | undefined;
 
 export const sendData = () => {
-  window.api.sendData('send-data', messageDataStore);
+  window.api.sendData(messageDataStore);
   console.log('sending data to main');
 };
 

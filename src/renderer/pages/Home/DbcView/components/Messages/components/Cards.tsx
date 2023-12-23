@@ -14,11 +14,14 @@ const InputRange = memo(function InputRange({
   const handleChange = useCallback(
     (e: ChangeEvent) => {
       setRangeValue(+(e.target as HTMLInputElement).value);
-      messageDataStore
-        .get(message.id)
-        ?.set(signal.name, +(e.target as HTMLInputElement).value);
+      messageDataStore.get(message.id)?.set(signal.name, {
+        value: +(e.target as HTMLInputElement).value,
+        factor: signal.factor, // Assign a default value to factor
+        length: signal.length, // Assign a default value to length
+        startBit: signal.startBit, // Assign a default value to startBit
+      });
     },
-    [message.id, signal.name],
+    [message.id, signal.name, signal.factor, signal.length, signal.startBit],
   );
   return (
     <>
@@ -51,9 +54,12 @@ const oneBitSignal = ({
       <Form.Label className="text-wrap w-90">{`${signal.name}`}</Form.Label>
       <Form.Check
         onChange={(e) => {
-          messageDataStore
-            .get(message.id)
-            ?.set(signal.name, e.target.checked ? 1 : 0);
+          messageDataStore.get(message.id)?.set(signal.name, {
+            value: (e.target as HTMLInputElement).checked ? 1 : 0,
+            factor: signal.factor, // Assign a default value to factor
+            length: signal.length, // Assign a default value to length
+            startBit: signal.startBit, // Assign a default value to startBit
+          });
         }}
         type="checkbox"
       />
@@ -85,9 +91,12 @@ const twoBitSignal = ({
               id={`inline-radio-${i}`}
               value={i}
               onChange={(e) => {
-                messageDataStore
-                  .get(message.id)
-                  ?.set(signal.name, parseInt(e.target.value, 10));
+                messageDataStore.get(message.id)?.set(signal.name, {
+                  value: +(e.target as HTMLInputElement).value,
+                  factor: signal.factor, // Assign a default value to factor
+                  length: signal.length, // Assign a default value to length
+                  startBit: signal.startBit, // Assign a default value to startBit
+                });
               }}
             />
           );

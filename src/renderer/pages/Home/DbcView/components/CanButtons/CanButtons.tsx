@@ -1,5 +1,5 @@
 import { Form, Stack } from 'react-bootstrap';
-import { startSending, stopSending } from '../../SendData';
+import { setFrequency, startSending, stopSending } from '../../SendData';
 
 function SendSwitch() {
   return (
@@ -32,6 +32,10 @@ function FrequencyField() {
         className="form-control"
         aria-label="Frequency"
         defaultValue={200}
+        onChange={(e) => {
+          const freq = +(e.target as HTMLInputElement).value;
+          setFrequency(freq);
+        }}
       />
     </div>
   );
