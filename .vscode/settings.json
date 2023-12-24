@@ -33,6 +33,9 @@
   "editor.formatOnPaste": false, // required
   "editor.formatOnType": false, // required
   "editor.formatOnSave": true, // optional
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }, // optional
   "editor.formatOnSaveMode": "file", // required to format on save
   "files.autoSave": "onFocusChange", // optional but recommended
   "vs-code-prettier-eslint.prettierLast": "false",

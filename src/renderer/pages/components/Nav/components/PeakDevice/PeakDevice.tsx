@@ -12,6 +12,7 @@ function PeakDevice({
     <Dropdown.Item
       onClick={() => {
         window.api.openDevice(path);
+        // send custom event to other components
         setDevice(`PeakCAN handle: ${path}`);
         localStorage.setItem('device', path);
       }}

@@ -1,7 +1,32 @@
 import { Form, Stack } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
 import { setFrequency, startSending, stopSending } from '../../SendData';
 
 function SendSwitch() {
+  const [disabled, setDisabled] = useState(true);
+
+  useEffect(() => {
+    const getStatus = async () => {
+      const status = await window.api.getStatus();
+      setDisabled(!status);
+    };
+    getStatus();
+  }, []);
+
+  useEffect(() => {
+    return window.api.onDeviceOpened(() => {
+      console.log('device opened');
+      setDisabled(false);
+    });
+  });
+
+  useEffect(() => {
+    return window.api.onDeviceClosed(() => {
+      console.log('device closed');
+      setDisabled(true);
+    });
+  });
+
   return (
     <div className="form-check form-switch form-switch-md">
       <input
@@ -9,6 +34,7 @@ function SendSwitch() {
         role="switch"
         name="can-send-switch"
         id="can-send-switch"
+        disabled={disabled}
         className="form-check-input"
         onChange={(e) => {
           console.log(e.target.checked);

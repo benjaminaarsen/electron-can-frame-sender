@@ -24,11 +24,15 @@ export module openDbcFile {
         return result.filePaths[0];
       });
     if (filePath) {
-      const result = await parseDbcFile(filePath);
-      dbcData = result;
-      BrowserWindow.fromWebContents(
-        webContents.getFocusedWebContents()!,
-      )?.webContents.send('dbc-file-loaded');
+      try {
+        const result = await parseDbcFile(filePath);
+        dbcData = result;
+        BrowserWindow.fromWebContents(
+          webContents.getFocusedWebContents()!,
+        )?.webContents.send('dbc-file-loaded');
+      } catch (error) {
+        dialog.showErrorBox('Error', error.message);
+      }
     }
     return null;
   });

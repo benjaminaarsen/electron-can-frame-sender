@@ -79,6 +79,22 @@ const WINDOW_API = {
       ipcRenderer.removeListener('update-devices', subscription);
     };
   },
+  onDeviceOpened(func: () => void) {
+    const subscription = () => func();
+    ipcRenderer.on('device-opened', subscription);
+
+    return () => {
+      ipcRenderer.removeListener('device-opened', subscription);
+    };
+  },
+  onDeviceClosed(func: () => void) {
+    const subscription = () => func();
+    ipcRenderer.on('device-closed', subscription);
+
+    return () => {
+      ipcRenderer.removeListener('device-closed', subscription);
+    };
+  },
 };
 // contextBridge.exposeInMainWorld('api', electronHandler);
 contextBridge.exposeInMainWorld('api', WINDOW_API);

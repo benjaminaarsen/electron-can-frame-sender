@@ -1,7 +1,8 @@
 import Can from '@csllc/cs-pcan-usb';
 
 export const can = new Can({
-  canRate: 250000,
+  canRate: 1000000,
+  loopback: false,
 });
 
 let devices: any[] = [];
@@ -31,5 +32,9 @@ export const setCurrentDevice = (device: any) => {
 };
 
 export const sendData = async (data: CanData) => {
-  await can.write(data);
+  try {
+    await can.write(data);
+  } catch (error) {
+    console.error(error);
+  }
 };

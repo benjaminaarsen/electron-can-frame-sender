@@ -7,8 +7,8 @@ import {
   getDevices as _getDevices,
   setCurrentDevice,
   getCurrentDevice,
-  // sendData,
-  // CanData,
+  sendData,
+  CanData,
 } from '../../util/can';
 import {
   MessageDataStore,
@@ -29,7 +29,7 @@ export module getDevices {
 
 export module openDevice {
   ipcMain.on('open-device', (event, devicePath) => {
-    can.open(devicePath).catch((err) => {
+    can.open(devicePath).catch((err: Error) => {
       if (getCurrentDevice()) {
         dialog.showErrorBox(
           'Error',
@@ -38,8 +38,10 @@ export module openDevice {
       }
 
       // console.log(err);
-      setCurrentDevice(devicePath);
     });
+    setCurrentDevice(devicePath);
+
+    event.sender.send('device-opened');
   });
 }
 export module getStatus {
@@ -55,12 +57,13 @@ export module getDevice {
   });
 }
 export module closeDevice {
-  ipcMain.on('close-device', () => {
+  ipcMain.on('close-device', (event) => {
     can.close();
+    event.sender.send('device-closed');
   });
 }
 
-const SignalDataStoreToBuffer = (signalDataStore: SignalDataStore) => {
+const signalDataStoreToBuffer = (signalDataStore: SignalDataStore) => {
   const buf = Buffer.alloc(8);
   let signalsToEightBytes = BigInt(0);
 
@@ -69,17 +72,23 @@ const SignalDataStoreToBuffer = (signalDataStore: SignalDataStore) => {
       BigInt(signal.value) << BigInt(signal.startBit - signal.length + 1);
   });
 
+  // console.log(signalsToEightBytes.toString(2));
   buf.writeBigUInt64BE(signalsToEightBytes);
   return buf;
 };
 
 export module sendCanData {
   ipcMain.on('send-data', (event, messageData: MessageDataStore) => {
-    console.log(messageData);
-    // messageData.forEach((signals: SignalDataStore) => {
-    //   console.log(signals);
-    //   console.log(SignalDataStoreToBuffer(signals));
-    // });
+    // signalDataStoreToBuffer(messageData.entries().next().value[1]);
+    messageData.forEach(async (signalDataStore, id) => {
+      const buf = signalDataStoreToBuffer(signalDataStore);
+      const canData: CanData = {
+        id,
+        ext: id > 0x7ff,
+        buf,
+      };
+      await sendData(canData);
+    });
   });
 }
 
